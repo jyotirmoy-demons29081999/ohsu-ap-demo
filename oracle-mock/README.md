@@ -1,5 +1,7 @@
 # Oracle EBS R12 mock — OHSU demo
 
+> **Running the demo? Follow the runbook in the repo's main [README](../README.md).** It supersedes the start-up, demo-date and email-address notes below (use `OHSU_DEMO_DATE=2026-10-30` and `persona.py`, never edit `seed.json`). The rest of this file describes how the stand-in Oracle works.
+
 A stand-in for OHSU's Oracle E-Business Suite R12 (Payables + Purchasing). The agents call its API;
 the browser screen copies the R12.2 Forms layout from real screenshots (State of Rhode Island's Oracle 12.2
 AP training guide): Navigator, Invoice Workbench with its six tabs, Invoice Actions, Match to Purchase Orders,
