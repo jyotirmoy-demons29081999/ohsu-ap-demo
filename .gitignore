@@ -1,0 +1,4 @@
+oracle-mock/oracle.db
+oracle-mock/oracle.db*
+__pycache__/
+.DS_Store

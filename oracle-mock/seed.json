@@ -1,0 +1,1441 @@
+{
+  "_about": "Demo data for the OHSU Oracle EBS R12 mock (storyline v4: ten cases, seven agents). Every supplier, person, number and amount is invented. Edit contact emails here so the live cases come from addresses you can send from, then reset.",
+  "base_date": "2026-10-23",
+  "employees": [
+    {
+      "person_id": 30411,
+      "full_name": "Park, Lena",
+      "email": "lpark@ohsu.edu",
+      "job_title": "AP Supervisor",
+      "department": "Accounts Payable",
+      "org_code": "FIN-AP",
+      "status": "Active"
+    },
+    {
+      "person_id": 30418,
+      "full_name": "Nair, Priya",
+      "email": "pnair@ohsu.edu",
+      "job_title": "AP Specialist",
+      "department": "Accounts Payable",
+      "org_code": "FIN-AP",
+      "status": "Active"
+    },
+    {
+      "person_id": 41207,
+      "full_name": "Chen, Maria",
+      "email": "mchen@ohsu.edu",
+      "job_title": "Department Administrator",
+      "department": "Radiology",
+      "org_code": "RAD",
+      "status": "Active"
+    },
+    {
+      "person_id": 41233,
+      "full_name": "Walsh, Kevin",
+      "email": "kwalsh@ohsu.edu",
+      "job_title": "Operations Manager",
+      "department": "Radiology",
+      "org_code": "RAD",
+      "status": "Inactive",
+      "end_date": "2026-09-30",
+      "role_key": "RAD:Operations Manager"
+    },
+    {
+      "person_id": 52016,
+      "full_name": "Ortiz, Sam",
+      "email": "sortiz@ohsu.edu",
+      "job_title": "Buyer",
+      "department": "Supply Chain",
+      "org_code": "SCM",
+      "status": "Active"
+    },
+    {
+      "person_id": 52044,
+      "full_name": "Lindqvist, Erik",
+      "email": "elindqvist@ohsu.edu",
+      "job_title": "Clinical Supply Coordinator",
+      "department": "Perioperative Services",
+      "org_code": "PERIOP",
+      "status": "Active"
+    },
+    {
+      "person_id": 52061,
+      "full_name": "Okafor, Grace",
+      "email": "gokafor@ohsu.edu",
+      "job_title": "Lab Manager",
+      "department": "Pathology Laboratory",
+      "org_code": "PATH",
+      "status": "Active"
+    },
+    {
+      "person_id": 41260,
+      "full_name": "Brooks, Hannah",
+      "email": "hbrooks@ohsu.edu",
+      "job_title": "Operations Manager (Acting)",
+      "department": "Radiology",
+      "org_code": "RAD",
+      "status": "Active",
+      "start_date": "2026-10-01",
+      "role_key": "RAD:Operations Manager"
+    },
+    {
+      "person_id": 52070,
+      "full_name": "Central Receiving",
+      "email": "receiving@ohsu.edu",
+      "job_title": "Receiving Dock",
+      "department": "Supply Chain",
+      "org_code": "SCM-RCV",
+      "status": "Active"
+    },
+    {
+      "person_id": 43105,
+      "full_name": "Alvarez, Sofia",
+      "email": "salvarez@ohsu.edu",
+      "job_title": "Research Administrator",
+      "department": "Neurology",
+      "org_code": "NEURO"
+    },
+    {
+      "person_id": 43101,
+      "full_name": "Osei, Daniel",
+      "email": "dosei@ohsu.edu",
+      "job_title": "Operations Director",
+      "department": "Neurology",
+      "org_code": "NEURO"
+    },
+    {
+      "person_id": 44210,
+      "full_name": "Rahman, Nadia",
+      "email": "nrahman@ohsu.edu",
+      "job_title": "Department Administrator",
+      "department": "Psychiatry",
+      "org_code": "PSYCH"
+    },
+    {
+      "person_id": 30520,
+      "full_name": "Liu, Grace",
+      "email": "gliu@ohsu.edu",
+      "job_title": "Tax & Compliance Analyst",
+      "department": "Tax & Compliance",
+      "org_code": "FIN-TAX"
+    },
+    {
+      "person_id": 45301,
+      "full_name": "Nguyen, Paul",
+      "email": "pnguyen@ohsu.edu",
+      "job_title": "Director",
+      "department": "Cardiology",
+      "org_code": "CARD"
+    },
+    {
+      "person_id": 45318,
+      "full_name": "Morales, Ana",
+      "email": "amorales@ohsu.edu",
+      "job_title": "Operations Manager",
+      "department": "Cardiology",
+      "org_code": "CARD",
+      "supervisor_id": 45301
+    },
+    {
+      "person_id": 46120,
+      "full_name": "Carter, Ben",
+      "email": "bcarter@ohsu.edu",
+      "job_title": "Facilities Manager",
+      "department": "Facilities Management",
+      "org_code": "FM"
+    },
+    {
+      "person_id": 47033,
+      "full_name": "Dalton, Chris",
+      "email": "cdalton@ohsu.edu",
+      "job_title": "Supply Coordinator",
+      "department": "Emergency Department",
+      "org_code": "ED",
+      "receives_own_goods": true
+    },
+    {
+      "person_id": 48011,
+      "full_name": "Ellison, Ruth",
+      "email": "rellison@ohsu.edu",
+      "job_title": "Finance Manager",
+      "department": "Orthopedics",
+      "org_code": "ORTHO"
+    }
+  ],
+  "suppliers": [
+    {
+      "supplier_number": "104882",
+      "supplier_name": "PACIFIC NORTHWEST SURGICAL SUPPLY",
+      "site": "PORTLAND-REMIT",
+      "address": "8200 SW Nimbus Ave, Beaverton, OR 97008",
+      "terms": "Net 30",
+      "payment_method": "ACH",
+      "status": "Active",
+      "contacts": [
+        {
+          "name": "Dana Reyes",
+          "role": "Accounts Receivable",
+          "email": "dreyes@pnwsurgical.com",
+          "phone": "+1 503-555-0142"
+        }
+      ]
+    },
+    {
+      "supplier_number": "104883",
+      "supplier_name": "PACIFIC NORTHWEST SURGICAL RENTALS",
+      "site": "PORTLAND-REMIT",
+      "address": "8200 SW Nimbus Ave, Suite 300, Beaverton, OR 97008",
+      "terms": "Net 30",
+      "payment_method": "ACH",
+      "status": "Active",
+      "contacts": [
+        {
+          "name": "Rentals Billing",
+          "role": "Billing",
+          "email": "billing@pnwsurgicalrentals.com"
+        }
+      ]
+    },
+    {
+      "supplier_number": "106231",
+      "supplier_name": "COLUMBIA LAB PRODUCTS",
+      "site": "VANCOUVER-REMIT",
+      "address": "1400 NE 136th Ave, Vancouver, WA 98684",
+      "terms": "2% 10, Net 30",
+      "payment_method": "ACH",
+      "status": "Active",
+      "contacts": [
+        {
+          "name": "Accounts Receivable",
+          "role": "Accounts Receivable",
+          "email": "ar@columbialabproducts.com"
+        }
+      ]
+    },
+    {
+      "supplier_number": "107540",
+      "supplier_name": "NORTHWEST IMAGING SERVICES",
+      "site": "TIGARD-REMIT",
+      "address": "7455 SW Bridgeport Rd, Tigard, OR 97224",
+      "terms": "Net 30",
+      "payment_method": "ACH",
+      "status": "Active",
+      "contacts": [
+        {
+          "name": "Billing",
+          "role": "Billing",
+          "email": "billing@nwimagingservices.com"
+        }
+      ]
+    },
+    {
+      "supplier_number": "108120",
+      "supplier_name": "WILLAMETTE LINEN SERVICES",
+      "site": "SALEM-REMIT",
+      "address": "2250 Mission St SE, Salem, OR 97302",
+      "terms": "Net 30",
+      "payment_method": "ACH",
+      "status": "Active",
+      "contacts": [
+        {
+          "name": "Billing",
+          "role": "Billing",
+          "email": "billing@willamettelinen.com"
+        }
+      ]
+    },
+    {
+      "supplier_number": "109377",
+      "supplier_name": "SUMMIT BIOMEDICAL INC",
+      "site": "SEATTLE-REMIT",
+      "address": "1201 3rd Ave, Seattle, WA 98101",
+      "terms": "Net 45",
+      "payment_method": "ACH",
+      "status": "Active",
+      "contacts": [
+        {
+          "name": "Remittance",
+          "role": "Accounts Receivable",
+          "email": "remit@summitbiomedical.com"
+        }
+      ]
+    },
+    {
+      "supplier_number": "110054",
+      "supplier_name": "CASCADE OFFICE SUPPLY",
+      "site": "PORTLAND-REMIT",
+      "address": "3030 NW Yeon Ave, Portland, OR 97210",
+      "terms": "Net 30",
+      "payment_method": "CHECK",
+      "status": "Active",
+      "contacts": [
+        {
+          "name": "Orders",
+          "role": "Accounts Receivable",
+          "email": "ar@cascadeoffice.com"
+        }
+      ]
+    },
+    {
+      "supplier_number": "111203",
+      "supplier_name": "ROSE CITY COURIER",
+      "site": "PORTLAND-REMIT",
+      "address": "910 SE Grand Ave, Portland, OR 97214",
+      "terms": "Net 15",
+      "payment_method": "ACH",
+      "status": "Active",
+      "contacts": [
+        {
+          "name": "Billing",
+          "role": "Billing",
+          "email": "billing@rosecitycourier.com"
+        }
+      ]
+    },
+    {
+      "supplier_number": "112410",
+      "supplier_name": "BLUE HERON CATERING",
+      "site": "PORTLAND-REMIT",
+      "address": "1420 NW Lovejoy St, Portland, OR 97209",
+      "terms": "Net 15",
+      "payment_method": "ACH",
+      "status": "Active",
+      "contacts": [
+        {
+          "name": "Events Billing",
+          "role": "Billing",
+          "email": "events@blueheroncatering.com"
+        }
+      ]
+    },
+    {
+      "supplier_number": "112455",
+      "supplier_name": "CASCADE CLINICAL DISTRIBUTORS",
+      "site": "TUALATIN-REMIT",
+      "address": "19500 SW Teton Ave, Tualatin, OR 97062",
+      "terms": "Net 30",
+      "payment_method": "ACH",
+      "status": "Active",
+      "contacts": [
+        {
+          "name": "AR",
+          "role": "Accounts Receivable",
+          "email": "ar@cascadeclinical.com"
+        }
+      ]
+    },
+    {
+      "supplier_number": "112470",
+      "supplier_name": "NORTHWEST BIOMEDICAL REPAIR",
+      "site": "BEAVERTON-REMIT",
+      "address": "4800 SW Griffith Dr, Beaverton, OR 97005",
+      "terms": "Net 30",
+      "payment_method": "ACH",
+      "status": "Active",
+      "contacts": [
+        {
+          "name": "Service Billing",
+          "role": "Billing",
+          "email": "billing@nwbiomedrepair.com"
+        }
+      ]
+    },
+    {
+      "supplier_number": "112488",
+      "supplier_name": "IRONWOOD HVAC SERVICES",
+      "site": "HILLSBORO-REMIT",
+      "address": "2600 NE Brookwood Pkwy, Hillsboro, OR 97124",
+      "terms": "Net 30",
+      "payment_method": "ACH",
+      "status": "Active",
+      "contacts": [
+        {
+          "name": "Billing",
+          "role": "Billing",
+          "email": "billing@ironwoodhvac.com"
+        }
+      ]
+    }
+  ],
+  "purchase_orders": [
+    {
+      "po_number": "7772208",
+      "supplier_number": "104882",
+      "status": "APPROVED",
+      "created": "2026-08-28",
+      "buyer_id": 52016,
+      "requester_id": 52044,
+      "description": "Perioperative supplies - Q3 replenishment",
+      "lines": [
+        {
+          "line_num": 1,
+          "description": "Nitrile exam gloves, M, 10 bx/cs",
+          "uom": "CS",
+          "quantity": 125,
+          "unit_price": 38.5
+        },
+        {
+          "line_num": 2,
+          "description": "Laparotomy packs, sterile",
+          "uom": "CS",
+          "quantity": 42,
+          "unit_price": 293.0
+        },
+        {
+          "line_num": 3,
+          "description": "Basin sets, sterile, double",
+          "uom": "CS",
+          "quantity": 20,
+          "unit_price": 147.0
+        },
+        {
+          "line_num": 4,
+          "description": "Patient warming blankets, disposable",
+          "uom": "CS",
+          "quantity": 30,
+          "unit_price": 120.5
+        },
+        {
+          "line_num": 5,
+          "description": "Surgical skin markers, sterile",
+          "uom": "BX",
+          "quantity": 36,
+          "unit_price": 61.5
+        }
+      ]
+    },
+    {
+      "po_number": "7790415",
+      "supplier_number": "104882",
+      "status": "APPROVED",
+      "created": "2026-09-18",
+      "buyer_id": 52016,
+      "requester_id": 52044,
+      "description": "OR drapes, gowns and suture kits",
+      "lines": [
+        {
+          "line_num": 1,
+          "description": "Sterile drape packs, universal",
+          "uom": "CS",
+          "quantity": 65,
+          "unit_price": 86.0
+        },
+        {
+          "line_num": 2,
+          "description": "Surgical gowns, large, AAMI L3",
+          "uom": "CS",
+          "quantity": 25,
+          "unit_price": 72.0
+        },
+        {
+          "line_num": 3,
+          "description": "Suture kits, general",
+          "uom": "CS",
+          "quantity": 20,
+          "unit_price": 62.0
+        }
+      ]
+    },
+    {
+      "po_number": "7765310",
+      "supplier_number": "107540",
+      "status": "APPROVED",
+      "created": "2026-06-24",
+      "buyer_id": 52016,
+      "requester_id": 41233,
+      "description": "CT scanner service contract - Radiology",
+      "lines": [
+        {
+          "line_num": 1,
+          "description": "CT scanner service contract, Q3 (Jul-Sep 2026)",
+          "uom": "EA",
+          "quantity": 1,
+          "unit_price": 18750.0,
+          "service_end": "2026-09-30"
+        },
+        {
+          "line_num": 2,
+          "description": "CT scanner service contract, Q4 (Oct-Dec 2026)",
+          "uom": "EA",
+          "quantity": 1,
+          "unit_price": 18750.0,
+          "service_end": "2026-12-31"
+        }
+      ]
+    },
+    {
+      "po_number": "7781203",
+      "supplier_number": "106231",
+      "status": "APPROVED",
+      "created": "2026-09-08",
+      "buyer_id": 52016,
+      "requester_id": 52061,
+      "description": "Pathology lab consumables",
+      "lines": [
+        {
+          "line_num": 1,
+          "description": "Serological pipettes, 10 mL, sterile",
+          "uom": "CS",
+          "quantity": 47,
+          "unit_price": 110.0
+        },
+        {
+          "line_num": 2,
+          "description": "Pipette tips, 1000 uL, filtered",
+          "uom": "CS",
+          "quantity": 12,
+          "unit_price": 310.0
+        },
+        {
+          "line_num": 3,
+          "description": "Microcentrifuge tubes, 1.5 mL",
+          "uom": "CS",
+          "quantity": 20,
+          "unit_price": 38.0
+        }
+      ]
+    },
+    {
+      "po_number": "7774410",
+      "supplier_number": "112455",
+      "status": "APPROVED",
+      "created": "2026-10-01",
+      "buyer_id": 52016,
+      "requester_id": 52044,
+      "description": "IV start kits - central stock",
+      "lines": [
+        {
+          "line_num": 1,
+          "description": "IV start kits, adult",
+          "uom": "CS",
+          "quantity": 32,
+          "unit_price": 37.0
+        }
+      ]
+    },
+    {
+      "po_number": "7774502",
+      "supplier_number": "112455",
+      "status": "APPROVED",
+      "created": "2026-10-02",
+      "buyer_id": 52016,
+      "requester_id": 47033,
+      "description": "Trauma dressing kits - Emergency Department",
+      "lines": [
+        {
+          "line_num": 1,
+          "description": "Trauma dressing kits",
+          "uom": "CS",
+          "quantity": 10,
+          "unit_price": 261.85
+        }
+      ]
+    },
+    {
+      "po_number": "7769021",
+      "supplier_number": "112470",
+      "status": "APPROVED",
+      "created": "2026-09-02",
+      "buyer_id": 52016,
+      "requester_id": 45318,
+      "description": "Cardiology equipment service",
+      "lines": [
+        {
+          "line_num": 1,
+          "description": "Echocardiography system repair, September",
+          "uom": "EA",
+          "quantity": 1,
+          "unit_price": 1450.0
+        },
+        {
+          "line_num": 2,
+          "description": "ECG cart preventive maintenance",
+          "uom": "EA",
+          "quantity": 1,
+          "unit_price": 980.0
+        },
+        {
+          "line_num": 3,
+          "description": "Defibrillator fleet preventive maintenance",
+          "uom": "EA",
+          "quantity": 1,
+          "unit_price": 2210.0
+        }
+      ]
+    },
+    {
+      "po_number": "7768840",
+      "supplier_number": "112488",
+      "status": "APPROVED",
+      "created": "2026-09-10",
+      "buyer_id": 52016,
+      "requester_id": 46120,
+      "description": "HVAC services - main campus",
+      "lines": [
+        {
+          "line_num": 1,
+          "description": "Chiller 3 compressor repair",
+          "uom": "EA",
+          "quantity": 1,
+          "unit_price": 4800.0
+        },
+        {
+          "line_num": 2,
+          "description": "Air handler filter service, October",
+          "uom": "EA",
+          "quantity": 1,
+          "unit_price": 1275.0
+        },
+        {
+          "line_num": 3,
+          "description": "Boiler annual inspection",
+          "uom": "EA",
+          "quantity": 1,
+          "unit_price": 3960.0
+        },
+        {
+          "line_num": 4,
+          "description": "Thermostat replacement, lab wing",
+          "uom": "EA",
+          "quantity": 1,
+          "unit_price": 640.0
+        }
+      ]
+    }
+  ],
+  "receipts": [
+    {
+      "receipt_num": "5530118",
+      "po_number": "7772208",
+      "line_num": 1,
+      "type": "RECEIVE",
+      "quantity": 125,
+      "date": "2026-09-08",
+      "received_by": 52044
+    },
+    {
+      "receipt_num": "5531940",
+      "po_number": "7772208",
+      "line_num": 2,
+      "type": "RECEIVE",
+      "quantity": 42,
+      "date": "2026-10-03",
+      "received_by": 52044
+    },
+    {
+      "receipt_num": "5532207",
+      "po_number": "7772208",
+      "line_num": 3,
+      "type": "RECEIVE",
+      "quantity": 12,
+      "date": "2026-10-06",
+      "received_by": 52044
+    },
+    {
+      "receipt_num": "5531602",
+      "po_number": "7790415",
+      "line_num": 1,
+      "type": "RECEIVE",
+      "quantity": 40,
+      "date": "2026-09-30",
+      "received_by": 52044
+    },
+    {
+      "receipt_num": "5531602",
+      "po_number": "7790415",
+      "line_num": 2,
+      "type": "RECEIVE",
+      "quantity": 25,
+      "date": "2026-09-30",
+      "received_by": 52044
+    },
+    {
+      "receipt_num": "5531602",
+      "po_number": "7790415",
+      "line_num": 3,
+      "type": "RECEIVE",
+      "quantity": 20,
+      "date": "2026-09-30",
+      "received_by": 52044
+    },
+    {
+      "receipt_num": "5533371",
+      "po_number": "7790415",
+      "line_num": 1,
+      "type": "RECEIVE",
+      "quantity": 20,
+      "date": "2026-10-20",
+      "received_by": 52070
+    },
+    {
+      "receipt_num": "5531155",
+      "po_number": "7781203",
+      "line_num": 1,
+      "type": "RECEIVE",
+      "quantity": 47,
+      "date": "2026-09-22",
+      "received_by": 52061
+    },
+    {
+      "receipt_num": "5531155",
+      "po_number": "7781203",
+      "line_num": 2,
+      "type": "RECEIVE",
+      "quantity": 12,
+      "date": "2026-09-22",
+      "received_by": 52061
+    },
+    {
+      "receipt_num": "5531155",
+      "po_number": "7781203",
+      "line_num": 3,
+      "type": "RECEIVE",
+      "quantity": 20,
+      "date": "2026-09-22",
+      "received_by": 52061
+    },
+    {
+      "receipt_num": "5531155",
+      "po_number": "7781203",
+      "line_num": 2,
+      "type": "RETURN TO VENDOR",
+      "quantity": -4,
+      "date": "2026-09-29",
+      "received_by": 52061,
+      "note": "Return to vendor: 4 cs damaged in transit"
+    },
+    {
+      "receipt_num": "5531712",
+      "po_number": "7772208",
+      "line_num": 4,
+      "type": "RECEIVE",
+      "quantity": 30,
+      "date": "2026-10-01",
+      "received_by": 52044
+    },
+    {
+      "receipt_num": "5531712",
+      "po_number": "7772208",
+      "line_num": 4,
+      "type": "RETURN TO VENDOR",
+      "quantity": -5,
+      "date": "2026-10-08",
+      "received_by": 52044,
+      "note": "Return to vendor: 5 cs damaged packaging"
+    },
+    {
+      "receipt_num": "5532090",
+      "po_number": "7772208",
+      "line_num": 5,
+      "type": "RECEIVE",
+      "quantity": 36,
+      "date": "2026-10-06",
+      "received_by": 52044
+    }
+  ],
+  "invoices": [
+    {
+      "invoice_num": "55120",
+      "supplier_number": "104882",
+      "type": "STANDARD",
+      "invoice_date": "2026-09-12",
+      "received_date": "2026-09-15",
+      "source": "EMAIL",
+      "po_number": "7772208",
+      "description": "NITRILE EXAM GLOVES",
+      "lines": [
+        {
+          "po_line_num": 1,
+          "description": "Nitrile exam gloves, M, 10 bx/cs",
+          "quantity": 125,
+          "unit_price": 38.5
+        }
+      ]
+    },
+    {
+      "invoice_num": "55187",
+      "supplier_number": "104882",
+      "type": "STANDARD",
+      "invoice_date": "2026-10-07",
+      "received_date": "2026-10-09",
+      "source": "EMAIL",
+      "po_number": "7772208",
+      "description": "LAPAROTOMY PACKS",
+      "lines": [
+        {
+          "po_line_num": 2,
+          "description": "Laparotomy packs, sterile",
+          "quantity": 42,
+          "unit_price": 293.0
+        }
+      ]
+    },
+    {
+      "invoice_num": "55203",
+      "supplier_number": "104882",
+      "type": "STANDARD",
+      "invoice_date": "2026-10-09",
+      "received_date": "2026-10-12",
+      "source": "EMAIL",
+      "po_number": "7772208",
+      "description": "BASIN SETS",
+      "lines": [
+        {
+          "po_line_num": 3,
+          "description": "Basin sets, sterile, double",
+          "quantity": 20,
+          "unit_price": 147.0
+        }
+      ]
+    },
+    {
+      "invoice_num": "55219",
+      "supplier_number": "104882",
+      "type": "STANDARD",
+      "invoice_date": "2026-10-02",
+      "received_date": "2026-10-03",
+      "source": "EMAIL",
+      "po_number": "7772208",
+      "description": "PATIENT WARMING BLANKETS",
+      "lines": [
+        {
+          "po_line_num": 4,
+          "description": "Patient warming blankets, disposable",
+          "quantity": 30,
+          "unit_price": 120.5
+        }
+      ]
+    },
+    {
+      "invoice_num": "CM-8812",
+      "supplier_number": "104882",
+      "type": "CREDIT",
+      "invoice_date": "2026-10-09",
+      "received_date": "2026-10-09",
+      "source": "EMAIL",
+      "po_number": "7772208",
+      "description": "CREDIT MEMO - 5 CS WARMING BLANKETS RETURNED, RECEIPT 5531712",
+      "lines": [
+        {
+          "po_line_num": 4,
+          "description": "Return to vendor, receipt 5531712",
+          "quantity": -5,
+          "unit_price": 120.5
+        }
+      ]
+    },
+    {
+      "invoice_num": "0055244",
+      "supplier_number": "104882",
+      "type": "STANDARD",
+      "invoice_date": "2026-10-10",
+      "received_date": "2026-10-10",
+      "source": "GHX XML",
+      "po_number": "7772208",
+      "description": "SURGICAL SKIN MARKERS - GHX",
+      "lines": [
+        {
+          "po_line_num": 5,
+          "description": "Surgical skin markers, sterile",
+          "quantity": 36,
+          "unit_price": 61.5
+        }
+      ]
+    },
+    {
+      "invoice_num": "R-2207",
+      "supplier_number": "104883",
+      "type": "STANDARD",
+      "invoice_date": "2026-09-25",
+      "received_date": "2026-09-26",
+      "source": "EMAIL",
+      "description": "SURGICAL LIGHT RENTAL - SEPTEMBER",
+      "lines": [
+        {
+          "description": "Surgical light rental, September 2026",
+          "quantity": 1,
+          "unit_price": 3150.0
+        }
+      ]
+    },
+    {
+      "invoice_num": "88412",
+      "supplier_number": "107540",
+      "type": "STANDARD",
+      "invoice_date": "2026-09-15",
+      "received_date": "2026-09-17",
+      "source": "EMAIL",
+      "po_number": "7765310",
+      "description": "CT SERVICE CONTRACT Q3 2026",
+      "lines": [
+        {
+          "po_line_num": 1,
+          "description": "CT scanner service contract, Q3 (Jul-Sep 2026)",
+          "quantity": 1,
+          "unit_price": 18750.0
+        }
+      ]
+    },
+    {
+      "invoice_num": "88507",
+      "supplier_number": "107540",
+      "type": "STANDARD",
+      "invoice_date": "2026-10-01",
+      "received_date": "2026-10-02",
+      "source": "EMAIL",
+      "po_number": "7765310",
+      "description": "CT SERVICE CONTRACT Q4 2026",
+      "lines": [
+        {
+          "po_line_num": 2,
+          "description": "CT scanner service contract, Q4 (Oct-Dec 2026)",
+          "quantity": 1,
+          "unit_price": 18750.0
+        }
+      ]
+    },
+    {
+      "invoice_num": "71019",
+      "supplier_number": "106231",
+      "type": "STANDARD",
+      "invoice_date": "2026-09-14",
+      "received_date": "2026-09-16",
+      "source": "EMAIL",
+      "po_number": "7781203",
+      "description": "SEROLOGICAL PIPETTES",
+      "lines": [
+        {
+          "po_line_num": 1,
+          "description": "Serological pipettes, 10 mL, sterile",
+          "quantity": 47,
+          "unit_price": 110.0
+        }
+      ]
+    },
+    {
+      "invoice_num": "71033",
+      "supplier_number": "106231",
+      "type": "STANDARD",
+      "invoice_date": "2026-09-16",
+      "received_date": "2026-09-18",
+      "source": "EMAIL",
+      "po_number": "7781203",
+      "description": "PIPETTE TIPS AND TUBES",
+      "lines": [
+        {
+          "po_line_num": 2,
+          "description": "Pipette tips, 1000 uL, filtered",
+          "quantity": 12,
+          "unit_price": 310.0
+        },
+        {
+          "po_line_num": 3,
+          "description": "Microcentrifuge tubes, 1.5 mL",
+          "quantity": 20,
+          "unit_price": 38.0
+        }
+      ]
+    },
+    {
+      "invoice_num": "DM-71033",
+      "supplier_number": "106231",
+      "type": "DEBIT",
+      "invoice_date": "2026-09-30",
+      "received_date": "2026-09-30",
+      "source": "MANUAL",
+      "po_number": "7781203",
+      "description": "DEBIT MEMO - RETURN TO VENDOR, RECEIPT 5531155, 4 CS PIPETTE TIPS DAMAGED, RETURNED 29-SEP-2026",
+      "lines": [
+        {
+          "po_line_num": 2,
+          "description": "Return to vendor, receipt 5531155",
+          "quantity": -4,
+          "unit_price": 310.0
+        }
+      ]
+    },
+    {
+      "invoice_num": "WL-24411",
+      "supplier_number": "108120",
+      "type": "STANDARD",
+      "invoice_date": "2026-09-05",
+      "received_date": "2026-09-08",
+      "source": "EMAIL",
+      "description": "LINEN SERVICE - AUGUST",
+      "lines": [
+        {
+          "description": "Linen service, August 2026",
+          "quantity": 1,
+          "unit_price": 3215.4
+        }
+      ]
+    },
+    {
+      "invoice_num": "WL-24502",
+      "supplier_number": "108120",
+      "type": "STANDARD",
+      "invoice_date": "2026-10-05",
+      "received_date": "2026-10-07",
+      "source": "EMAIL",
+      "description": "LINEN SERVICE - SEPTEMBER",
+      "lines": [
+        {
+          "description": "Linen service, September 2026",
+          "quantity": 1,
+          "unit_price": 3198.75
+        }
+      ]
+    },
+    {
+      "invoice_num": "SB-880214",
+      "supplier_number": "109377",
+      "type": "STANDARD",
+      "invoice_date": "2026-08-20",
+      "received_date": "2026-08-20",
+      "source": "GHX XML",
+      "description": "IMPLANT KITS - GHX",
+      "lines": [
+        {
+          "description": "Orthopedic implant kits",
+          "quantity": 8,
+          "unit_price": 2830.0
+        }
+      ]
+    },
+    {
+      "invoice_num": "SB-880377",
+      "supplier_number": "109377",
+      "type": "STANDARD",
+      "invoice_date": "2026-10-02",
+      "received_date": "2026-10-02",
+      "source": "GHX XML",
+      "description": "IMPLANT KITS - GHX",
+      "lines": [
+        {
+          "description": "Orthopedic implant kits",
+          "quantity": 4,
+          "unit_price": 2470.0
+        }
+      ]
+    },
+    {
+      "invoice_num": "400912",
+      "supplier_number": "110054",
+      "type": "STANDARD",
+      "invoice_date": "2026-09-22",
+      "received_date": "2026-09-24",
+      "source": "EMAIL",
+      "description": "OFFICE SUPPLIES",
+      "lines": [
+        {
+          "description": "Office supplies, assorted",
+          "quantity": 1,
+          "unit_price": 612.38
+        }
+      ]
+    },
+    {
+      "invoice_num": "RCC-1092",
+      "supplier_number": "111203",
+      "type": "STANDARD",
+      "invoice_date": "2026-10-14",
+      "received_date": "2026-10-15",
+      "source": "EMAIL",
+      "description": "SPECIMEN COURIER - SEPTEMBER",
+      "lines": [
+        {
+          "description": "Specimen courier runs, September 2026",
+          "quantity": 58,
+          "unit_price": 25.0
+        }
+      ]
+    },
+    {
+      "invoice_num": "CCD-20931",
+      "supplier_number": "112455",
+      "type": "STANDARD",
+      "invoice_date": "2026-10-10",
+      "received_date": "2026-10-13",
+      "source": "GHX XML",
+      "description": "IV START KITS - GHX",
+      "lines": [
+        {
+          "po_line_num": 1,
+          "description": "IV start kits, adult",
+          "quantity": 32,
+          "unit_price": 37.0
+        }
+      ],
+      "po_number": "7774410"
+    },
+    {
+      "invoice_num": "CCD-20977",
+      "supplier_number": "112455",
+      "type": "STANDARD",
+      "invoice_date": "2026-10-13",
+      "received_date": "2026-10-14",
+      "source": "GHX XML",
+      "description": "TRAUMA DRESSING KITS - GHX",
+      "lines": [
+        {
+          "po_line_num": 1,
+          "description": "Trauma dressing kits",
+          "quantity": 10,
+          "unit_price": 261.85
+        }
+      ],
+      "po_number": "7774502"
+    },
+    {
+      "invoice_num": "NBR-5512",
+      "supplier_number": "112470",
+      "type": "STANDARD",
+      "invoice_date": "2026-09-18",
+      "received_date": "2026-09-19",
+      "source": "EMAIL",
+      "description": "ECHO SYSTEM REPAIR",
+      "lines": [
+        {
+          "po_line_num": 1,
+          "description": "Echocardiography system repair, September",
+          "quantity": 1,
+          "unit_price": 1450.0
+        }
+      ],
+      "po_number": "7769021"
+    },
+    {
+      "invoice_num": "NBR-5540",
+      "supplier_number": "112470",
+      "type": "STANDARD",
+      "invoice_date": "2026-10-06",
+      "received_date": "2026-10-07",
+      "source": "EMAIL",
+      "description": "ECG CART PM",
+      "lines": [
+        {
+          "po_line_num": 2,
+          "description": "ECG cart preventive maintenance",
+          "quantity": 1,
+          "unit_price": 980.0
+        }
+      ],
+      "po_number": "7769021"
+    },
+    {
+      "invoice_num": "NBR-5561",
+      "supplier_number": "112470",
+      "type": "STANDARD",
+      "invoice_date": "2026-10-08",
+      "received_date": "2026-10-09",
+      "source": "EMAIL",
+      "description": "DEFIBRILLATOR PM",
+      "lines": [
+        {
+          "po_line_num": 3,
+          "description": "Defibrillator fleet preventive maintenance",
+          "quantity": 1,
+          "unit_price": 2210.0
+        }
+      ],
+      "po_number": "7769021"
+    },
+    {
+      "invoice_num": "IHS-3307",
+      "supplier_number": "112488",
+      "type": "STANDARD",
+      "invoice_date": "2026-09-30",
+      "received_date": "2026-10-01",
+      "source": "EMAIL",
+      "description": "CHILLER 3 REPAIR",
+      "lines": [
+        {
+          "po_line_num": 1,
+          "description": "Chiller 3 compressor repair",
+          "quantity": 1,
+          "unit_price": 4800.0
+        }
+      ],
+      "po_number": "7768840"
+    },
+    {
+      "invoice_num": "IHS-3321",
+      "supplier_number": "112488",
+      "type": "STANDARD",
+      "invoice_date": "2026-10-03",
+      "received_date": "2026-10-06",
+      "source": "EMAIL",
+      "description": "AHU FILTER SERVICE OCT",
+      "lines": [
+        {
+          "po_line_num": 2,
+          "description": "Air handler filter service, October",
+          "quantity": 1,
+          "unit_price": 1275.0
+        }
+      ],
+      "po_number": "7768840"
+    },
+    {
+      "invoice_num": "IHS-3345",
+      "supplier_number": "112488",
+      "type": "STANDARD",
+      "invoice_date": "2026-10-07",
+      "received_date": "2026-10-08",
+      "source": "EMAIL",
+      "description": "BOILER INSPECTION",
+      "lines": [
+        {
+          "po_line_num": 3,
+          "description": "Boiler annual inspection",
+          "quantity": 1,
+          "unit_price": 3960.0
+        }
+      ],
+      "po_number": "7768840"
+    },
+    {
+      "invoice_num": "IHS-3360",
+      "supplier_number": "112488",
+      "type": "STANDARD",
+      "invoice_date": "2026-10-14",
+      "received_date": "2026-10-15",
+      "source": "EMAIL",
+      "description": "THERMOSTAT REPLACEMENT",
+      "lines": [
+        {
+          "po_line_num": 4,
+          "description": "Thermostat replacement, lab wing",
+          "quantity": 1,
+          "unit_price": 640.0
+        }
+      ],
+      "po_number": "7768840"
+    },
+    {
+      "invoice_num": "SB-880402",
+      "supplier_number": "109377",
+      "type": "STANDARD",
+      "invoice_date": "2026-09-15",
+      "received_date": "2026-09-15",
+      "source": "GHX XML",
+      "description": "IMPLANT KITS - GHX",
+      "lines": [
+        {
+          "description": "Orthopedic implant kits",
+          "quantity": 1,
+          "unit_price": 4150.0
+        }
+      ]
+    },
+    {
+      "invoice_num": "SB-880415",
+      "supplier_number": "109377",
+      "type": "STANDARD",
+      "invoice_date": "2026-09-18",
+      "received_date": "2026-09-18",
+      "source": "GHX XML",
+      "description": "IMPLANT KIT - GHX",
+      "lines": [
+        {
+          "description": "Orthopedic implant kit",
+          "quantity": 1,
+          "unit_price": 1920.0
+        }
+      ]
+    },
+    {
+      "invoice_num": "SB-CM-0912",
+      "supplier_number": "109377",
+      "type": "CREDIT",
+      "invoice_date": "2026-09-30",
+      "received_date": "2026-09-30",
+      "source": "GHX XML",
+      "description": "CREDIT MEMO - RETURNED IMPLANT KIT, SB-880415",
+      "lines": [
+        {
+          "description": "Returned unopened implant kit",
+          "quantity": -1,
+          "unit_price": 1920.0
+        }
+      ]
+    },
+    {
+      "invoice_num": "SB-880451",
+      "supplier_number": "109377",
+      "type": "STANDARD",
+      "invoice_date": "2026-10-06",
+      "received_date": "2026-10-07",
+      "source": "GHX XML",
+      "description": "IMPLANT INSTRUMENT LOAN FEE",
+      "lines": [
+        {
+          "description": "Loaner instrument set fee",
+          "quantity": 1,
+          "unit_price": 3760.0
+        }
+      ],
+      "approver_email": "rellison@ohsu.edu"
+    },
+    {
+      "invoice_num": "SB-880460",
+      "supplier_number": "109377",
+      "type": "STANDARD",
+      "invoice_date": "2026-10-20",
+      "received_date": "2026-10-23",
+      "source": "GHX XML",
+      "description": "IMPLANT KITS - GHX",
+      "lines": [
+        {
+          "description": "Orthopedic implant kits",
+          "quantity": 1,
+          "unit_price": 2095.0
+        }
+      ],
+      "unvalidated": true
+    }
+  ],
+  "payments": [
+    {
+      "payment_number": "118144",
+      "supplier_number": "104882",
+      "date": "2026-10-02",
+      "method": "CHECK",
+      "status": "Voided",
+      "void_date": "2026-10-09",
+      "void_reason": "Returned undeliverable by the post office",
+      "invoices": [
+        {
+          "invoice_num": "55120",
+          "amount": 4812.5
+        }
+      ]
+    },
+    {
+      "payment_number": "30418822",
+      "supplier_number": "104882",
+      "date": "2026-10-14",
+      "method": "ACH",
+      "invoices": [
+        {
+          "invoice_num": "55120",
+          "amount": 4812.5
+        }
+      ]
+    },
+    {
+      "payment_number": "30419507",
+      "supplier_number": "106231",
+      "date": "2026-10-16",
+      "method": "ACH",
+      "invoices": [
+        {
+          "invoice_num": "71019",
+          "amount": 5066.6,
+          "discount": 103.4
+        },
+        {
+          "invoice_num": "71033",
+          "amount": 4480.0
+        },
+        {
+          "invoice_num": "DM-71033",
+          "amount": -1240.0
+        }
+      ]
+    },
+    {
+      "payment_number": "30417640",
+      "supplier_number": "108120",
+      "date": "2026-10-03",
+      "method": "ACH",
+      "invoices": [
+        {
+          "invoice_num": "WL-24411",
+          "amount": 3215.4
+        }
+      ]
+    },
+    {
+      "payment_number": "30416981",
+      "supplier_number": "109377",
+      "date": "2026-10-02",
+      "method": "ACH",
+      "invoices": [
+        {
+          "invoice_num": "SB-880214",
+          "amount": 22640.0
+        }
+      ]
+    },
+    {
+      "payment_number": "118204",
+      "supplier_number": "110054",
+      "date": "2026-10-20",
+      "method": "CHECK",
+      "invoices": [
+        {
+          "invoice_num": "400912",
+          "amount": 612.38
+        }
+      ]
+    },
+    {
+      "payment_number": "30419544",
+      "supplier_number": "104882",
+      "date": "2026-10-16",
+      "method": "ACH",
+      "invoices": [
+        {
+          "invoice_num": "55219",
+          "amount": 3615.0
+        },
+        {
+          "invoice_num": "CM-8812",
+          "amount": -602.5
+        }
+      ]
+    },
+    {
+      "payment_number": "30417702",
+      "supplier_number": "109377",
+      "date": "2026-10-09",
+      "method": "ACH",
+      "invoices": [
+        {
+          "invoice_num": "SB-880402",
+          "amount": 4150.0
+        }
+      ]
+    },
+    {
+      "payment_number": "30417190",
+      "supplier_number": "109377",
+      "date": "2026-09-30",
+      "method": "ACH",
+      "invoices": [
+        {
+          "invoice_num": "SB-880415",
+          "amount": 1920.0
+        },
+        {
+          "invoice_num": "SB-CM-0912",
+          "amount": -1920.0
+        }
+      ]
+    }
+  ],
+  "awards": [
+    {
+      "award_number": "R01 NS112233",
+      "sponsor": "National Institutes of Health",
+      "federal": true,
+      "project": "1027734",
+      "task": "1.1",
+      "department": "Neurology",
+      "start_date": "2025-07-01",
+      "end_date": "2030-06-30",
+      "title": "Circuit mechanisms of memory consolidation"
+    }
+  ]
+}

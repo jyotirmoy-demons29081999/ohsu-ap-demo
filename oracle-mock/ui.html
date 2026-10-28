@@ -1,0 +1,757 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Oracle Applications - OHSU DEMO</title>
+<style>
+  /* Styled on the Oracle E-Business Suite R12.2 Forms "Swan" look: light blue-grey windows, boxed fields,
+     yellow required fields, numbered tabs, pill buttons, navy current-record marker. */
+  :root {
+    --frame: #f4f6f9;
+    --canvas: #ffffff;
+    --win: #f1f5fa;
+    --wtitle: linear-gradient(#5f8fd3, #2f63b0);
+    --wtitle-off: linear-gradient(#b8c9e3, #9bb2d6);
+    --field-bd: #a9bcd6;
+    --field-ro: #edf2f8;
+    --field: #ffffff;
+    --req: #fff9c4;
+    --label: #22344d;
+    --tab: #dbe6f3;
+    --tab-on: #b4cbe8;
+    --tab-bd: #8ea7c9;
+    --btn-bd: #7b98c1;
+    --navy: #1b2a8f;
+    --red: #e00000;
+    --grey: #8c99aa;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; }
+  body { font: 11px Tahoma, "Segoe UI", Verdana, Arial, sans-serif; color: #000; background: var(--frame); display: flex; flex-direction: column; }
+  u { text-decoration: underline; }
+
+  /* --- application frame --- */
+  .apptitle { background: linear-gradient(#e9eef6, #d3dceb); border-bottom: 1px solid #a6b4c8; padding: 3px 8px; display: flex; align-items: center; gap: 6px; font-size: 12px; }
+  .apptitle .ic { width: 14px; height: 14px; border-radius: 3px; background: linear-gradient(#f6d26a, #d99a1c); border: 1px solid #a8761a; }
+  .apptitle .ctl { margin-left: auto; display: flex; gap: 3px; }
+  .apptitle .ctl i { width: 18px; height: 15px; border: 1px solid #8095b3; border-radius: 3px; background: linear-gradient(#fff, #d6e0ee); display: inline-block; }
+  .apptitle .ctl i:last-child { background: linear-gradient(#f1a08b, #d24b2b); border-color: #9c3a22; }
+  .menubar { background: var(--frame); display: flex; align-items: center; padding: 2px 4px; position: relative; z-index: 40; }
+  .menubar > .m { padding: 2px 7px; position: relative; cursor: default; }
+  .menubar > .m:hover, .menubar > .m.open { background: #316ac5; color: #fff; }
+  .menubar .logo { margin-left: auto; padding-right: 8px; display: flex; align-items: flex-start; line-height: 0; }
+  .menubar .logo svg { height: 13px; width: auto; }
+  .menubar .logo sup { color: #F80000; font-size: 6px; line-height: 1; margin-left: 1px; }
+  .menu { display: none; position: absolute; top: 18px; left: 0; background: #fff; color: #000; border: 1px solid #7a8ba3; box-shadow: 2px 3px 6px rgba(0,0,0,.25); min-width: 230px; padding: 2px 0; }
+  .m.open > .menu { display: block; }
+  .menu div { padding: 3px 18px; white-space: nowrap; }
+  .menu div:hover { background: #316ac5; color: #fff; }
+  .menu div.off { color: #9aa5b4; }
+  .menu div.off:hover { background: none; color: #9aa5b4; }
+  .menu hr { border: none; border-top: 1px solid #c8d1dd; margin: 2px 0; }
+  .toolbar { margin: 1px 6px 4px; border: 1px solid #a9bbd3; border-radius: 10px; background: linear-gradient(#fbfcfe, #dfe7f2); display: flex; align-items: center; padding: 2px 8px; gap: 2px; }
+  .tb { width: 22px; height: 20px; display: grid; place-items: center; border: 1px solid transparent; border-radius: 3px; cursor: pointer; }
+  .tb:hover { border-color: #7b98c1; background: #fff; }
+  .tb svg { width: 16px; height: 16px; }
+  .tb.off { opacity: .45; cursor: default; }
+  .tsep { width: 1px; height: 18px; background: #a9bbd3; margin: 0 5px; }
+
+  /* --- MDI canvas and windows --- */
+  .canvas { flex: 1; background: var(--canvas); border-top: 1px solid #c6d1e0; position: relative; overflow: auto; padding: 6px; }
+  .win { background: var(--win); border: 1px solid #5d82bb; box-shadow: 1px 1px 0 #c8d4e6; display: flex; flex-direction: column; min-width: 0; }
+  .wt { background: var(--wtitle); color: #fff; height: 19px; padding: 0 4px; display: flex; align-items: center; gap: 5px; white-space: nowrap; overflow: hidden; }
+  .wt .oval { width: 15px; height: 9px; border-radius: 50%; border: 2px solid #e00000; background: #fff; flex: none; }
+  .wt .sq { margin-left: auto; display: flex; gap: 2px; }
+  .wt .sq i { width: 13px; height: 12px; background: #e9eff8; border: 1px solid #fff; display: inline-block; cursor: pointer; }
+  .wb { padding: 6px 8px 8px; overflow: auto; }
+  .win.nav { width: 470px; margin: 30px auto 0; }
+
+  /* --- fields --- */
+  .fld { display: inline-block; height: 18px; line-height: 16px; border: 1px solid var(--field-bd); background: var(--field-ro); padding: 0 3px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; vertical-align: middle; }
+  .fld.w { background: var(--field); }
+  .fld.req { background: var(--req); }
+  .fld.n { text-align: right; font-variant-numeric: tabular-nums; }
+  input.fld, select.fld { font: inherit; color: #000; outline: none; }
+  input.fld:focus, select.fld:focus { border-color: #2f63b0; }
+  .row { display: flex; align-items: center; gap: 5px; margin: 2px 0; }
+  .lbl { color: var(--label); text-align: right; white-space: nowrap; }
+  .kvg { display: grid; grid-template-columns: auto 1fr; gap: 3px 6px; align-items: center; }
+  fieldset.gb { border: 1px solid #a3b7d3; border-radius: 4px; margin: 4px 0; padding: 4px 8px 6px; }
+  fieldset.gb legend { color: var(--label); padding: 0 3px; }
+  .blk { display: flex; align-items: center; gap: 6px; margin: 4px 0 2px; color: var(--label); }
+  .blk .fi { width: 16px; height: 14px; border: 1px solid #8a9dba; border-radius: 2px; background: linear-gradient(#fff, #e1e9f4); display: grid; place-items: center; font-size: 9px; }
+  .blk .cb { margin-left: auto; width: 11px; height: 11px; border: 1px solid #8a9dba; background: #fff; }
+
+  /* --- multi-row blocks (grids) --- */
+  .mr { display: flex; gap: 0; }
+  .mr .gut { display: flex; flex-direction: column; gap: 2px; padding-top: 17px; margin-right: 3px; }
+  .mr .gut i { width: 9px; height: 18px; border: 1px solid #c3d0e2; background: #f7f9fc; display: block; }
+  .mr .gut i.cur { background: var(--navy); border-color: var(--navy); }
+  .mr .gscroll { overflow-x: auto; overflow-y: hidden; flex: 1; position: relative; padding-bottom: 2px; }
+  .mr table { border-collapse: separate; border-spacing: 2px; margin: -2px; table-layout: fixed; width: max-content; }
+  .gbox { overflow: auto; border-bottom: 1px solid #c3d0e2; }
+  .gbox table.tf { border-collapse: separate; border-spacing: 2px; table-layout: fixed; width: max-content; }
+  .gbox th { font-weight: normal; color: var(--label); text-align: left; padding: 0 2px; height: 15px; white-space: nowrap; overflow: hidden; position: sticky; top: 0; background: var(--win); z-index: 1; }
+  .gbox td { padding: 0; }
+  .gbox td .fld { width: 100%; display: block; }
+  .gbox .ind { position: sticky; left: 0; background: var(--win); z-index: 2; }
+  .gbox th.ind { z-index: 3; }
+  .gbox .ind i { width: 9px; height: 18px; border: 1px solid #c3d0e2; background: #f7f9fc; display: block; }
+  .gbox tr.cur .ind i { background: var(--navy); border-color: var(--navy); }
+  .gbox tr.r.cur td .fld:not(.req) { background: #fff; }
+  .gbox tr.r.flash td .fld { animation: flash 3s ease-out; }
+  .mr th { font-weight: normal; color: var(--label); text-align: left; padding: 0 2px; height: 15px; white-space: nowrap; overflow: hidden; max-width: 1px; }
+  .mr td { padding: 0; }
+  .mr td .fld { width: 100%; display: block; }
+  .mr tr.r { cursor: default; }
+  .mr tr.r.cur td .fld:not(.req) { background: #fff; }
+  .mr tr.r.flash td .fld { animation: flash 3s ease-out; }
+  @keyframes flash { 0% { background: #a8dc96; } 100% { } }
+  .vsb { width: 15px; margin-left: 2px; border: 1px solid #c3d0e2; background: linear-gradient(90deg, #eef3f9, #dfe7f2); position: relative; margin-top: 17px; }
+  .vsb::before, .vsb::after { content: ""; position: absolute; left: 3px; border: 4px solid transparent; }
+  .vsb::before { top: 2px; border-bottom-color: #4d6c9b; }
+  .vsb::after { bottom: 2px; border-top-color: #4d6c9b; }
+
+  /* --- tabs --- */
+  .tabs { display: flex; gap: 2px; margin-top: 8px; padding-left: 4px; }
+  .tab { min-width: 104px; padding: 3px 10px; text-align: center; border: 1px solid var(--tab-bd); border-bottom: none; border-radius: 5px 5px 0 0; background: var(--tab); cursor: pointer; white-space: nowrap; }
+  .tab.on { background: var(--tab-on); }
+  .tab.off { color: var(--grey); cursor: default; }
+  .tabp { border: 1px solid var(--tab-bd); border-radius: 0 4px 4px 4px; padding: 6px 8px; min-height: 236px; background: var(--win); }
+
+  /* --- buttons --- */
+  .btns { display: flex; gap: 8px; margin-top: 8px; align-items: center; }
+  .btns .sp { flex: 1; }
+  .pb { font: inherit; min-width: 84px; height: 21px; padding: 0 12px; border: 1px solid var(--btn-bd); border-radius: 11px; background: linear-gradient(#fbfdff, #ccdaee); color: #000; cursor: pointer; }
+  .pb:hover:not([disabled]) { border-color: #2f63b0; background: linear-gradient(#fff, #dbe6f5); }
+  .pb[disabled] { color: #9aa8ba; border-color: #b9c8dc; background: linear-gradient(#f7f9fc, #e3eaf3); cursor: default; }
+
+  /* --- modal windows --- */
+  .modal { position: fixed; inset: 0; display: none; place-items: center; z-index: 60; }
+  .modal.on { display: grid; }
+  .modal .win { box-shadow: 3px 4px 14px rgba(0,0,0,.35); max-width: 96vw; max-height: 92vh; }
+  .chk { display: flex; align-items: center; gap: 5px; margin: 3px 0; }
+  .chk.off { color: var(--grey); }
+  .chk input { margin: 0; }
+
+  /* --- navigator --- */
+  .navtabs { display: flex; gap: 2px; }
+  .navtabs div { padding: 2px 10px; border: 1px solid var(--tab-bd); border-bottom: none; border-radius: 4px 4px 0 0; background: var(--tab); }
+  .navtabs div.on { background: var(--tab-on); }
+  .navbody { border: 1px solid var(--tab-bd); padding: 8px; background: var(--win); }
+  .navgrid { display: grid; grid-template-columns: 24px 1fr 30px 128px; gap: 6px; margin-top: 6px; }
+  .navbtns { display: flex; flex-direction: column; gap: 4px; padding-top: 20px; }
+  .navbtns i { width: 20px; height: 18px; border: 1px solid #8ea7c9; border-radius: 3px; background: linear-gradient(#fff, #d8e3f1); display: grid; place-items: center; font-style: normal; color: #2f63b0; font-weight: bold; }
+  .tree { background: #fff; border: 1px solid #8ea7c9; height: 200px; overflow: auto; padding: 2px 0; }
+  .tree div { padding: 1px 4px; white-space: nowrap; cursor: default; }
+  .tree div.sel { background: #3a5a91; color: #fff; }
+  .tree div.dim { color: #8c99aa; }
+  .topten { background: #fff; border: 1px solid #8ea7c9; height: 180px; padding: 2px 4px; }
+
+  .status { height: 20px; border-top: 1px solid #b6c3d6; background: var(--frame); display: flex; align-items: center; gap: 0; font-size: 11px; }
+  .status div { padding: 0 8px; border-right: 1px solid #c6d1e0; height: 100%; display: flex; align-items: center; }
+  .status .msg { flex: 1; }
+  a.lnk { color: #1f4ea3; }
+  .demo { position: fixed; right: 8px; bottom: 26px; font-size: 10px; color: #8c99aa; }
+</style>
+</head>
+<body>
+<div class="apptitle"><span class="ic"></span><span>Oracle Applications - OHSU DEMO</span><span class="ctl"><i></i><i></i><i></i></span></div>
+<div class="menubar" id="menubar">
+  <div class="m"><u>F</u>ile<div class="menu">
+    <div class="off">New</div><div data-cmd="open-nav">Open...</div><div data-cmd="save">Save</div><div class="off">Save and Proceed</div>
+    <hr><div data-cmd="switch-resp">Switch Responsibility...</div><div class="off">Print...</div><div data-cmd="close">Close Form</div>
+    <hr><div data-cmd="activity">Demo: Activity Log</div><div data-cmd="reset">Demo: Reset Data (reload seed.json)</div>
+  </div></div>
+  <div class="m"><u>E</u>dit<div class="menu"><div class="off">Undo</div><div class="off">Cut</div><div class="off">Copy</div><div class="off">Paste</div><hr><div class="off">Clear Record</div><div class="off">Delete Record</div><div class="off">Edit Field...</div><div class="off">Preferences</div></div></div>
+  <div class="m"><u>V</u>iew<div class="menu"><div data-cmd="find">Find...</div><div class="off">Find All</div><div data-cmd="requery">Query By Example: Run</div><div class="off">Record History</div><div class="off">Requests</div></div></div>
+  <div class="m">F<u>o</u>lder<div class="menu"><div class="off">New</div><div class="off">Open...</div><div class="off">Save</div><div class="off">Show Field...</div></div></div>
+  <div class="m"><u>T</u>ools<div class="menu"><div data-cmd="overview">View Invoice Overview</div><div class="off">View Results</div></div></div>
+  <div class="m"><u>R</u>eports<div class="menu"><div class="off">View Projected Withholding</div><div data-cmd="approval-history">View Invoice Approval History</div><div data-cmd="view-po">View Purchase Order</div><div class="off">View Receipt</div></div></div>
+  <div class="m"><u>A</u>ctions<div class="menu"><div data-cmd="actions">Invoice Actions...</div></div></div>
+  <div class="m"><u>W</u>indow<div class="menu" id="winmenu"></div></div>
+  <div class="m"><u>H</u>elp<div class="menu"><div class="off">Window Help</div><div class="off">Oracle Applications Library</div><div data-cmd="record-history">Record History</div><div class="off">About Oracle Applications...</div></div></div>
+  <span class="logo" title="Oracle"><svg viewBox="0 0 231 30" aria-label="Oracle"><path fill="#F80000" transform="translate(-0.02 0)" d="M99.61,19.52h15.24l-8.05-13L92,30H85.27l18-28.17a4.290,4.290,0,0,1,7-.05L128.32,30h-6.73l-3.17-5.25H103l-3.36-5.230m69.93,5.23V0.28h-5.72V27.16a2.76,2.76,0,0,0,.85,2,2.89,2.89,0,0,0,2.08.87h26l3.39-5.25H169.54M75,20.38A10,10,0,0,0,75,.28H50V30h5.71V5.54H74.65a4.81,4.81,0,0,1,0,9.62H58.54L75.6,30h8.29L72.43,20.38H75M14.88,30H32.15a14.86,14.86,0,0,0,0-29.71H14.88a14.86,14.86,0,1,0,0,29.71m16.88-5.23H15.26a9.620,9.62,0,0,1,0-19.23h16.5a9.62,9.62,0,1,1,0,19.23M140.25,30h17.63l3.34-5.23H140.64a9.62,9.62,0,1,1,0-19.23h16.75l3.38-5.25H140.25a14.86,14.86,0,1,0,0,29.71m69.87-5.23a9.62,9.62,0,0,1-9.26-7h24.42l3.36-5.24H200.86a9.61,9.61,0,0,1,9.26-7h16.76l3.35-5.25h-20.5a14.86,14.86,0,0,0,0,29.71h17.63l3.35-5.23h-20.6"/></svg><sup>&reg;</sup></span>
+</div>
+<div class="toolbar" id="toolbar"></div>
+<div class="canvas" id="canvas"></div>
+<div class="status"><div class="msg" id="msg">&nbsp;</div><div id="rec">Record: 1/1</div><div>&lt;OSC&gt;</div><div id="clock"></div></div>
+<div class="modal" id="modal"></div>
+<div class="demo">Demo stand-in for Oracle E-Business Suite R12.2. Not an Oracle product.</div>
+
+<script>
+// ===================================================================== utilities
+const API = "/api";
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const esc = (v) => String(v ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const usd = (n) => (n === null || n === undefined || n === "") ? "" : Number(n).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const MON = ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"];
+const od = (s) => { if (!s) return ""; const d = String(s).slice(0, 10).split("-"); return d.length < 3 ? s : `${d[2]}-${MON[+d[1] - 1]}-${d[0]}`; };
+const odt = (s) => s ? `${od(s)} ${String(s).slice(11, 19)}` : "";
+const title = (s) => String(s || "").toLowerCase().replace(/\b\w/g, (c) => c.toUpperCase());
+async function get(p) { const r = await fetch(API + p); return r.json(); }
+async function send(method, p, body) {
+  const r = await fetch(API + p, { method, headers: { "Content-Type": "application/json" }, body: JSON.stringify(body || {}) });
+  return { ok: r.ok, data: await r.json() };
+}
+function msg(t) { $("#msg").textContent = t || " "; }
+const F = (v, cls = "") => `<span class="fld ${cls}" title="${esc(v)}">${esc(v) || "&nbsp;"}</span>`;
+const FN = (v, cls = "") => F(usd(v), "n " + cls);
+const btn = (label, cmd, disabled) => `<button class="pb" ${cmd ? `data-cmd="${cmd}"` : ""} ${disabled ? "disabled" : ""}>${label}</button>`;
+const ulabel = (text, i = 0) => esc(text.slice(0, i)) + "<u>" + esc(text[i]) + "</u>" + esc(text.slice(i + 1));
+
+// ===================================================================== state
+const RESPS = {
+  "OHSU Payables Manager": [
+    { t: "Worklist", form: "worklist" },
+    { t: "Invoices Entry", kids: [{ t: "Invoices", form: "workbench" }] },
+    { t: "Invoices Inquiry", kids: [{ t: "Invoices", form: "workbench" }, { t: "Invoice Overview", form: "overview" }] },
+    { t: "Payments Inquiry", kids: [{ t: "Payments", form: "payments" }, { t: "Payment Overview", dim: 1 }, { t: "Withheld Amounts", dim: 1 }] },
+    { t: "Suppliers", form: "suppliers" },
+    { t: "Other", kids: [{ t: "Requests", dim: 1 }, { t: "Profile", dim: 1 }] },
+  ],
+  "OHSU Purchasing Super User": [
+    { t: "Purchase Orders", kids: [{ t: "Purchase Orders", form: "po" }, { t: "Purchase Order Summary", form: "po" }] },
+    { t: "Receiving", kids: [{ t: "Receipts", form: "receipts" }, { t: "Receiving Transactions Summary", form: "rcvsum" }] },
+    { t: "Requisitions", kids: [{ t: "Requisitions", dim: 1 }] },
+  ],
+};
+const FORM_NAMES = { workbench: "Invoice Workbench", overview: "Invoice Overview", payments: "Payments", suppliers: "Suppliers",
+  po: "Purchase Orders", receipts: "Receipts", rcvsum: "Receiving Transactions Summary", activity: "Demo Activity Log", worklist: "Worklist" };
+const S = {
+  resp: "OHSU Payables Manager", open: [], active: "nav", navSel: "Invoices Entry/Invoices", expanded: new Set(["Invoices Entry"]),
+  inv: { rows: [], cur: null, tab: "general", filter: {}, seen: null },
+  po: { num: "7790415", tab: "lines", edits: {} }, rcv: { po: null, qty: {}, chk: {} }, pay: { cur: 0 }, overviewId: null,
+};
+
+// ===================================================================== toolbar (Forms icon set, drawn inline)
+const ICONS = [
+  ["New", "M3 2h7l3 3v9H3z M10 2v3h3", "#3c6"], ["Find", "M6 6a3 3 0 1 0 0.1 0 M8 8l5 5", "#467", "find"],
+  ["Show Navigator", "M8 2l5 6-5 6-5-6z", "#d80", "open-nav"], null,
+  ["Save", "M3 3h10v10H3z M5 3v4h6V3 M5 10h6", "#36a", "save"], ["Next Step", "M3 8h8 M8 5l3 3-3 3", "#393"],
+  ["Print", "M4 6h8v5H4z M5 3h6v3 M5 11h6v3H5z", "#555"], ["Close Form", "M3 3h10v10H3z M6 6l4 4 M10 6l-4 4", "#c33", "close"], null,
+  ["Cut", "M5 3l6 8 M11 3l-6 8 M4 12a1.5 1.5 0 1 0 .1 0 M12 12a1.5 1.5 0 1 0 .1 0", "#555"], ["Copy", "M4 4h6v8H4z M7 2h6v8", "#555"],
+  ["Paste", "M4 3h8v11H4z M6 2h4v3H6z", "#963"], ["New Record", "M3 8h10 M8 3v10", "#393"], ["Delete Record", "M3 3l10 10 M13 3L3 13", "#c33"],
+  ["Edit Field", "M3 13l2-5 6-6 3 3-6 6z", "#a63"], null, ["Zoom", "M7 7a4 4 0 1 0 .1 0 M10 10l4 4", "#36a"],
+  ["Translations", "M8 2a6 6 0 1 0 .1 0 M2 8h12 M8 2c3 3 3 9 0 12 M8 2c-3 3-3 9 0 12", "#2a8"],
+  ["Attachments", "M10 4l-5 5a2 2 0 0 0 3 3l6-6a3 3 0 0 0-4-4L4 8", "#666"], ["Folder Tools", "M2 5h5l1 2h6v6H2z", "#d90"], null,
+  ["Window Help", "M6 6a2 2 0 1 1 3 2c-1 .5-1 1-1 2 M8 12v1", "#36a"],
+];
+$("#toolbar").innerHTML = ICONS.map((ic) => ic === null ? `<span class="tsep"></span>` :
+  `<span class="tb ${ic[3] ? "" : "off"}" title="${ic[0]}" ${ic[3] ? `data-cmd="${ic[3]}"` : ""}><svg viewBox="0 0 16 16" fill="none" stroke="${ic[2]}" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="${ic[1]}"/></svg></span>`).join("");
+
+// ===================================================================== commands
+document.addEventListener("click", (e) => {
+  const m = e.target.closest("#menubar > .m");
+  $$("#menubar > .m").forEach((x) => { if (x !== m) x.classList.remove("open"); });
+  if (m && !e.target.closest(".menu")) m.classList.toggle("open");
+  const c = e.target.closest("[data-cmd]");
+  if (c && !c.classList.contains("off") && !c.disabled) { $$("#menubar > .m").forEach((x) => x.classList.remove("open")); cmd(c.dataset.cmd, c); }
+});
+function openForm(f) { if (!S.open.includes(f)) S.open.push(f); S.active = f; render(); }
+async function cmd(c, el) {
+  switch (c) {
+    case "open-nav": S.active = "nav"; return render();
+    case "close": if (S.active !== "nav") { S.open = S.open.filter((f) => f !== S.active); S.active = S.open.at(-1) || "nav"; } return render();
+    case "switch-resp": return modalResp();
+    case "find": return S.active === "po" ? modalFindPO() : modalFindInvoices();
+    case "requery": return render();
+    case "save": return save();
+    case "overview": if (S.inv.cur) { S.overviewId = S.inv.cur; openForm("overview"); } return;
+    case "actions": return S.inv.cur && modalActions();
+    case "match": return S.inv.cur && modalMatch();
+    case "all-dist": return S.inv.cur && modalDistributions();
+    case "approval-history": return S.inv.cur && modalApprovalHistory();
+    case "record-history": return modalRecordHistory();
+    case "view-po": { const i = curInvoice(); if (i && i.po_number) { S.po.num = i.po_number; switchRespSilently("OHSU Purchasing Super User"); openForm("po"); } return; }
+    case "shipments": return modalShipments();
+    case "activity": return openForm("activity");
+    case "reset":
+      if (confirm("Reload seed.json? Every invoice, receipt and PO change made since will be lost.")) {
+        await send("POST", "/admin/reset"); S.inv.seen = null; S.inv.cur = null; S.po.edits = {}; msg("Demo data reloaded from seed.json."); render();
+      }
+      return;
+    case "win": S.active = el.dataset.f; return render();
+    case "nav-open": return navOpen();
+    case "wb-workbench": S.active = "workbench"; if (!S.open.includes("workbench")) S.open.push("workbench"); return render();
+    case "rcv-find": return modalFindReceipts();
+  }
+}
+function switchRespSilently(r) { S.resp = r; }
+async function save() {
+  if (S.active === "po" && Object.keys(S.po.edits).length) {
+    const who = "Ortiz, Sam";
+    for (const [line, price] of Object.entries(S.po.edits)) {
+      const r = await send("PATCH", `/purchase-orders/${S.po.num}/lines/${line}`, { unit_price: +price, actor: who });
+      if (!r.ok) { msg("APP-PO-14053: " + (r.data.message || r.data.error)); return; }
+    }
+    S.po.edits = {}; msg("Transaction complete: 1 records applied and saved."); return render();
+  }
+  if (S.active === "receipts" && S.rcv.po) {
+    const lines = Object.entries(S.rcv.chk).filter(([, v]) => v).map(([l]) => ({ line_num: +l, quantity: +((document.querySelector(`[data-qty="${l}"]`) || {}).value ?? S.rcv.qty[l]) }));
+    if (!lines.length) { msg("FRM-40401: No changes to save."); return; }
+    const r = await send("POST", "/receipts", { po_number: S.rcv.po, lines, received_by: S.rcv.by });
+    if (!r.ok) { msg("APP-PO-14095: " + (r.data.message || r.data.error)); return; }
+    S.rcv.chk = {}; S.rcv.qty = {}; msg(`Transaction complete: ${lines.length} records applied and saved. Receipt ${r.data.receipt_num} created.`);
+    return render();
+  }
+  msg("FRM-40401: No changes to save.");
+}
+
+// ===================================================================== window chrome
+function win(name, body, extra = "") {
+  return `<div class="win ${extra}"><div class="wt"><span class="oval"></span><span>${esc(name)}</span><span class="sq"><i></i><i></i><i data-cmd="close"></i></span></div><div class="wb">${body}</div></div>`;
+}
+function renderWindowMenu() {
+  $("#winmenu").innerHTML = `<div class="off">Cascade</div><div class="off">Tile Horizontally</div><div class="off">Tile Vertically</div><hr>` +
+    [["nav", "Navigator - " + S.resp], ...S.open.map((f) => [f, FORM_NAMES[f] + " (" + S.resp + ")"])].map(([f, t], i) =>
+      `<div data-cmd="win" data-f="${f}">${i + 1} ${esc(t)}${S.active === f ? " ✓" : ""}</div>`).join("");
+}
+
+// ===================================================================== Navigator
+function flatTree() {
+  const out = [];
+  for (const n of RESPS[S.resp]) {
+    const key = n.t;
+    out.push({ key, label: (n.kids ? (S.expanded.has(key) ? "- " : "+ ") : "  ") + n.t, depth: 0, node: n });
+    if (n.kids && S.expanded.has(key)) for (const k of n.kids) out.push({ key: key + "/" + k.t, label: k.t, depth: 1, node: k });
+  }
+  return out;
+}
+function renderNav() {
+  const items = flatTree();
+  const sel = items.find((i) => i.key === S.navSel) || items[0];
+  const path = sel ? sel.key.replace("/", ":") : "";
+  const body = `<div class="navtabs"><div class="on"><u>F</u>unctions</div><div><u>D</u>ocuments</div></div>
+    <div class="navbody"><div>${esc(path)}</div><div style="color:#4a5d78">${esc(sel && sel.node.form ? "Maintain " + FORM_NAMES[sel.node.form] : "")}&nbsp;</div>
+      <div class="navgrid"><div class="navbtns"><i>+</i><i>-</i><i>&#8597;</i><i>&#8645;</i><i>&#8801;</i></div>
+        <div class="tree">${items.map((i) => `<div class="${i.key === S.navSel ? "sel" : ""} ${i.node.dim ? "dim" : ""}" data-key="${esc(i.key)}" style="padding-left:${6 + i.depth * 16}px">${esc(i.label)}</div>`).join("")}</div>
+        <div class="navbtns"><i>&#10140;</i><i style="color:#9aa">&#8592;</i></div>
+        <div><div>Top Ten List</div><div class="topten">1. Invoices<br>2. Payments<br>3. Invoice Overview</div></div>
+      </div>
+      <div class="btns"><span class="sp"></span>${btn("<u>O</u>pen", "nav-open")}</div></div>`;
+  $("#canvas").innerHTML = win("Navigator - " + S.resp, body, "nav");
+  $$(".tree div").forEach((d) => {
+    d.onclick = () => { S.navSel = d.dataset.key; const n = flatTree().find((x) => x.key === d.dataset.key); if (n && n.node.kids) { S.expanded.has(n.key) ? S.expanded.delete(n.key) : S.expanded.add(n.key); } renderNav(); };
+    d.ondblclick = () => { S.navSel = d.dataset.key; navOpen(); };
+  });
+}
+function navOpen() {
+  const n = flatTree().find((x) => x.key === S.navSel);
+  if (n && n.node.form) { if (n.node.form === "receipts") { openForm("receipts"); if (!S.rcv.po) modalFindReceipts(); } else openForm(n.node.form); }
+}
+function modalResp() {
+  modal("Responsibilities", `<div class="row"><span class="lbl">Find</span><input class="fld w" value="%" style="width:240px"></div>
+    <div class="tree" style="height:120px;margin-top:6px">${Object.keys(RESPS).map((r) => `<div class="${r === S.resp ? "sel" : ""}" data-r="${esc(r)}">${esc(r)}</div>`).join("")}</div>`,
+    [["<u>F</u>ind", null, true], ["<u>O</u>K", () => { const s = $("#modal .tree div.sel"); if (s) { S.resp = s.dataset.r; S.navSel = ""; S.active = "nav"; S.open = []; render(); } return true; }], ["<u>C</u>ancel", () => true]], 360);
+  $$("#modal .tree div").forEach((d) => d.onclick = () => { $$("#modal .tree div").forEach((x) => x.classList.remove("sel")); d.classList.add("sel"); });
+}
+
+// ===================================================================== Invoice Workbench
+const curInvoice = () => S.inv.rows.find((r) => r.invoice_id === S.inv.cur);
+async function renderWorkbench() {
+  const f = S.inv.filter, qs = new URLSearchParams();
+  for (const [k, v] of Object.entries(f)) if (v) qs.set(k, v);
+  const data = await get("/invoices?" + qs);
+  const rows = data.invoices.sort((a, b) => b.invoice_id - a.invoice_id);
+  const firstLoad = S.inv.seen === null;
+  if (firstLoad) S.inv.seen = new Set();
+  const fresh = new Set(rows.filter((r) => !firstLoad && !S.inv.seen.has(r.invoice_id)).map((r) => r.invoice_id));
+  rows.forEach((r) => S.inv.seen.add(r.invoice_id));
+  if (fresh.size) { S.inv.scroll = 0; S.inv.cur = [...fresh][0]; msg(`Invoice ${rows.find((r) => r.invoice_id === S.inv.cur).invoice_num} received from Payables Open Interface.`); }
+  S.inv.rows = rows;
+  if (!rows.some((r) => r.invoice_id === S.inv.cur)) S.inv.cur = rows[0] ? rows[0].invoice_id : null;
+  const cur = S.inv.cur ? await get("/invoices/" + S.inv.cur) : null;
+  const cols = [["Type", 74], ["PO Number", 70], ["Trading Partner", 168], ["Supplier Num", 74], ["Supplier Site", 102], ["Invoice Date", 78],
+    ["Invoice Num", 82], ["Invoice Curr", 52], ["Invoice Amount", 92], ["[ ]", 16], ["Description", 190], ["GL Date", 78], ["Payment Curr", 54],
+    ["Terms Date", 78], ["Terms", 60], ["Payment Method", 82], ["Source", 76]];
+  const cell = (r) => [F(r.type === "DEBIT" ? "Debit Memo" : r.type === "CREDIT" ? "Credit Memo" : "Standard"), F(r.po_number || ""),
+    F(r.supplier_name), F(r.supplier_number), F(r.site, "req"), F(od(r.invoice_date)), F(r.invoice_num), F("USD"),
+    FN(r.invoice_amount), F(""), F(r.description || ""), F(od(r.gl_date || r.invoice_date), "req"), F("USD"), F(od(r.invoice_date)),
+    F(r.terms), F(r.supplier_number ? (r.payment_method || "") : ""), F(r.source)];
+  const VISIBLE = 6;
+  const empty = Math.max(0, VISIBLE - rows.length);
+  const grid = `<div class="gbox" style="max-height:${19 + VISIBLE * 20 + 16}px"><table class="tf"><colgroup><col style="width:12px">${cols.map((c) => `<col style="width:${c[1]}px">`).join("")}</colgroup>
+    <tr><th class="ind"></th>${cols.map((c) => `<th>${esc(c[0])}</th>`).join("")}</tr>
+    ${rows.map((r) => `<tr class="r ${r.invoice_id === S.inv.cur ? "cur" : ""} ${fresh.has(r.invoice_id) ? "flash" : ""}" data-id="${r.invoice_id}"><td class="ind"><i></i></td>${cell(r).map((c) => `<td>${c}</td>`).join("")}</tr>`).join("")}
+    ${`<tr><td class="ind"><i></i></td>${cols.map(() => `<td>${F("")}</td>`).join("")}</tr>`.repeat(empty)}</table></div>`;
+  const hasPay = cur && cur.payments && cur.payments.length;
+  const tabs = [["general", "1", " General"], ["lines", "2", " Lines"], ["holds", "3", " Holds"], ["payments", "4", " View Payments", !hasPay],
+    ["sched", "5", " Scheduled Payments"], ["prepay", "6", " View Prepayment Applications", true]];
+  if (S.inv.tab === "payments" && !hasPay) S.inv.tab = "general";
+  const body = `<div class="row"><span class="lbl">Batch Control Total</span>${F("", "")}<span style="flex:1"></span><span class="lbl">Batch Actual Total</span>${F("")}</div>
+    <div class="blk"><span class="fi">&#128221;</span>INVOICE HEADER<span class="cb"></span></div>${grid}
+    <div class="tabs">${tabs.map(([k, n, t, off]) => `<div class="tab ${S.inv.tab === k ? "on" : ""} ${off ? "off" : ""}" data-tab="${k}"><u>${n}</u>${esc(t)}</div>`).join("")}</div>
+    <div class="tabp">${cur ? invoiceTab(cur) : ""}</div>
+    <div class="btns">${btn("Ac<u>t</u>ions... 1", "actions", !cur)}<span class="sp"></span>${btn("<u>Q</u>uick Match", null, true)}${btn("<u>M</u>atch", "match", !cur || !cur.po_number)}${btn("All Distri<u>b</u>utions", "all-dist", !cur)}</div>`;
+  $("#canvas").innerHTML = win(`Invoice Workbench (${S.resp})`, body);
+  $$("#canvas tr.r").forEach((tr) => tr.onclick = () => { S.inv.cur = +tr.dataset.id; renderWorkbench(); });
+  const gb = $("#canvas .gbox");
+  if (gb) {
+    gb.scrollTop = S.inv.scroll || 0;
+    const cr = $("tr.cur", gb);   // keep the current record in view, as Forms does
+    if (cr && (cr.offsetTop < gb.scrollTop + 18 || cr.offsetTop + cr.offsetHeight > gb.scrollTop + gb.clientHeight)) gb.scrollTop = cr.offsetTop - 20;
+    S.inv.scroll = gb.scrollTop;
+    gb.onscroll = () => { S.inv.scroll = gb.scrollTop; };
+  }
+  $$("#canvas .tab").forEach((t) => t.onclick = () => { if (!t.classList.contains("off")) { S.inv.tab = t.dataset.tab; renderWorkbench(); } });
+  const idx = rows.findIndex((r) => r.invoice_id === S.inv.cur);
+  $("#rec").textContent = `Record: ${idx + 1}/${rows.length}`;
+}
+
+function invoiceTab(i) {
+  if (S.inv.tab === "general") {
+    const items = i.lines.reduce((a, l) => a + l.amount, 0);
+    return `<div style="display:grid;grid-template-columns:230px 170px 1fr;gap:14px">
+      <fieldset class="gb"><legend>Summary</legend><div class="kvg">
+        ${[["Items", items], ["Retainage", null], ["Prepayments Applied", null], ["Withholding", null], ["Subtotal", items], ["Tax", null], ["Freight", null], ["Miscellaneous", null], ["Total", items]]
+          .map(([k, v]) => `<span class="lbl">${k}</span>${F(v === null ? "" : usd(v), "n")}`).join("")}</div></fieldset>
+      <div><fieldset class="gb"><legend>Amount Paid</legend><div class="row">${F("USD")}${F(usd(i.amount_paid || 0), "n")}</div></fieldset></div>
+      <div><fieldset class="gb"><legend>Status</legend><div class="kvg" style="max-width:300px">
+        <span class="lbl">Status</span>${F(i.validation_status)}<span class="lbl">Accounted</span>${F(i.accounted)}
+        <span class="lbl">Approval</span>${F(i.approval_status)}<span class="lbl">Holds</span><span>${F(i.holds_count, "n")}</span>
+        <span class="lbl">Scheduled Payment Holds</span><span>${F(i.scheduled_payments.some((s) => s.hold) ? 1 : 0, "n")}</span></div></fieldset>
+        <div class="row" style="margin-top:10px;align-items:flex-start"><span class="lbl">Description</span><span class="fld" style="height:40px;white-space:normal;width:300px">${esc(i.description || "")}</span></div>
+      </div></div>`;
+  }
+  if (S.inv.tab === "lines") {
+    const gross = i.lines.reduce((a, l) => a + l.amount, 0);
+    const cols = [["Num", 34], ["Type", 50], ["Amount", 84], ["PO Number", 72], ["PO Release", 56], ["PO Line", 46], ["PO Shipment", 64], ["Match Basis", 62],
+      ["PO Distribution", 78], ["Receipt Number", 82], ["Receipt Line", 64], ["Quantity Invoiced", 92], ["Unit Price", 70], ["Description", 210], ["Distribution", 330]];
+    return `<fieldset class="gb" style="width:520px;margin-left:auto"><legend>Total</legend><div class="row"><span class="lbl">Gross</span>${F(usd(gross), "n")}<span class="lbl">Retained</span>${F("", "n")}<span class="lbl">Net</span>${F(usd(gross), "n")}</div></fieldset>
+      <div class="mr"><div class="gut">${i.lines.map((l, n) => `<i class="${n === 0 ? "cur" : ""}"></i>`).join("")}</div><div class="gscroll"><table><colgroup>${cols.map((c) => `<col style="width:${c[1]}px">`).join("")}</colgroup>
+      <tr>${cols.map((c) => `<th>${c[0]}</th>`).join("")}</tr>
+      ${i.lines.map((l) => `<tr>${[F(l.line_num, "n"), F("Item", "req"), FN(l.amount, "req"), F(l.po_line_num ? i.po_number : ""), F(""), F(l.po_line_num || ""), F(l.po_shipment || ""),
+        F(l.match_basis), F(l.po_distribution || ""), F(""), F(""), F(l.quantity, "n"), FN(l.unit_price), F(l.description), F(l.distribution || "")].map((c) => `<td>${c}</td>`).join("")}</tr>`).join("")}</table></div></div>`;
+  }
+  if (S.inv.tab === "holds") {
+    const cols = [["Hold Name", 92], ["Hold Reason", 230], ["Hold Date", 78], ["Held By", 60], ["Release Name", 104], ["Release Reason", 180], ["Released By", 70], ["Release Date", 78], ["WF Status", 70]];
+    const h0 = i.holds.find((h) => !h.released_at) || i.holds[0];
+    const line = h0 && h0.line_num ? i.lines.find((l) => l.line_num === h0.line_num) : null;
+    return `<div class="mr"><div class="gut">${i.holds.map((h, n) => `<i class="${n === 0 ? "cur" : ""}"></i>`).join("") || "<i></i>"}</div><div class="gscroll"><table><colgroup>${cols.map((c) => `<col style="width:${c[1]}px">`).join("")}</colgroup>
+      <tr>${cols.map((c) => `<th>${c[0]}</th>`).join("")}</tr>
+      ${i.holds.map((h) => `<tr>${[F(title(h.hold_name)), F(h.description), F(od(h.held_at)), F(h.held_by), F(h.release_name || ""), F(h.release_reason || ""),
+        F(h.released_by || ""), F(od(h.released_at)), F("")].map((c) => `<td>${c}</td>`).join("")}</tr>`).join("") || `<tr>${cols.map(() => `<td>${F("")}</td>`).join("")}</tr>`}</table></div></div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:6px">
+        <fieldset class="gb"><legend>Purchase Order</legend><div class="kvg"><span class="lbl">Number</span>${F(i.po_number || "")}<span class="lbl">Release</span>${F("")}<span class="lbl">Line</span>${F(line ? line.po_line_num : "")}<span class="lbl">Ship To</span>${F(i.po_number ? "OHSU MAIN CAMPUS" : "")}</div></fieldset>
+        <fieldset class="gb" id="shipq"><legend>Shipment Quantity</legend><div class="kvg"><span class="lbl">Ordered</span>${F("", "n")}<span class="lbl">Billed</span>${F("", "n")}<span class="lbl">Received</span>${F("", "n")}<span class="lbl">Accepted</span>${F("", "n")}</div></fieldset>
+        <fieldset class="gb"><legend>Receipt</legend><div class="kvg"><span class="lbl">Number</span>${F("")}<span class="lbl">Line</span>${F("")}<span class="lbl">Date</span>${F("")}</div></fieldset>
+        <fieldset class="gb"><legend>Receipt Quantity</legend><div class="kvg"><span class="lbl">Billed</span>${F("", "n")}<span class="lbl">Received</span>${F("", "n")}<span class="lbl">Accepted</span>${F("", "n")}</div></fieldset>
+      </div><div class="btns"><span class="sp"></span>${btn("View <u>P</u>O", "view-po", !i.po_number)}${btn("<u>R</u>elease... 1", null, true)}</div>`
+      + (line && i.po_number ? `<script-fill data-po="${i.po_number}" data-line="${line.po_line_num}"></script-fill>` : "");
+  }
+  if (S.inv.tab === "payments") {
+    const cols = [["Amount Paid", 90], ["Discount Taken", 84], ["Payment Date", 80], ["Document Number", 100], ["Payment Method", 90], ["Status", 76], ["Void Date", 80], ["Bank Account", 130]];
+    return `<div class="mr"><div class="gut">${i.payments.map((p, n) => `<i class="${n === 0 ? "cur" : ""}"></i>`).join("")}</div><div class="gscroll"><table><colgroup>${cols.map((c) => `<col style="width:${c[1]}px">`).join("")}</colgroup>
+      <tr>${cols.map((c) => `<th>${c[0]}</th>`).join("")}</tr>
+      ${i.payments.map((p) => `<tr>${[FN(p.amount_applied), FN(p.discount_taken || 0), F(od(p.payment_date)), F(p.payment_number), F(p.method === "ACH" ? "Electronic" : title(p.method)),
+        F(p.payment_status, p.payment_status === "Voided" ? "req" : ""), F(od(p.void_date)), F("OHSU AP DISBURSEMENT")].map((c) => `<td>${c}</td>`).join("")}</tr>`).join("")}</table></div></div>
+      ${i.payments.some((p) => p.payment_status === "Voided") ? `<div style="margin-top:6px;color:#4a5d78">Voided: ${i.payments.filter((p) => p.payment_status === "Voided").map((p) => esc(p.payment_number + " on " + od(p.void_date) + " - " + (p.void_reason || ""))).join("; ")}</div>` : ""}`;
+  }
+  if (S.inv.tab === "sched") {
+    const cols = [["Num", 34], ["Due Date", 80], ["Gross Amount", 92], ["Amount Remaining", 100], ["Hold", 36], ["Payment Method", 92], ["Priority", 52], ["Pay Group", 90]];
+    return `<div class="mr"><div class="gut"><i class="cur"></i></div><div class="gscroll"><table><colgroup>${cols.map((c) => `<col style="width:${c[1]}px">`).join("")}</colgroup>
+      <tr>${cols.map((c) => `<th>${c[0]}</th>`).join("")}</tr>
+      ${i.scheduled_payments.map((s) => `<tr>${[F(s.payment_num, "n"), F(od(s.due_date)), FN(s.gross_amount), FN(s.amount_remaining), F(s.hold ? "☑" : "☐"),
+        F(s.payment_method === "ACH" ? "Electronic" : title(s.payment_method)), F(s.payment_priority, "n"), F("OHSU STANDARD")].map((c) => `<td>${c}</td>`).join("")}</tr>`).join("")}</table></div></div>`;
+  }
+  return "";
+}
+// Holds tab: fill the shipment quantity box from the PO after render
+new MutationObserver(async () => {
+  const sf = $("script-fill");
+  if (!sf) return;
+  const { po, line } = sf.dataset; sf.remove();
+  const p = await get("/purchase-orders/" + po);
+  const l = p.lines.find((x) => x.line_num === +line);
+  const box = $("#shipq .kvg");
+  if (l && box) box.innerHTML = `<span class="lbl">Ordered</span>${F(l.quantity_ordered, "n")}<span class="lbl">Billed</span>${F(l.quantity_billed, "n")}<span class="lbl">Received</span>${F(l.quantity_received, "n")}<span class="lbl">Accepted</span>${F("", "n")}`;
+}).observe(document.getElementById("canvas"), { childList: true, subtree: true });
+
+// ---- Invoice Workbench modals
+function modalFindInvoices() {
+  const f = S.inv.filter;
+  modal("Find Invoices", `<div style="display:grid;grid-template-columns:auto 170px auto 170px;gap:4px 8px;align-items:center">
+    <span class="lbl">Supplier Num</span><input class="fld w" id="fsup" value="${esc(f.supplier_number || "")}">
+    <span class="lbl">Invoice Num</span><input class="fld w" id="fnum" value="${esc(f.invoice_num || "")}">
+    <span class="lbl">PO Number</span><input class="fld w" id="fpo" value="${esc(f.po_number || "")}">
+    <span class="lbl">Invoice Amount</span><input class="fld w" id="famt" value="${esc(f.amount || "")}">
+    <span class="lbl">Validation Status</span><select class="fld w" id="fst"><option></option>${["Validated", "Needs Revalidation", "Never Validated"].map((s) => `<option ${f.validation_status === s ? "selected" : ""}>${s}</option>`).join("")}</select>
+    <span class="lbl">Source</span><select class="fld w" id="fsrc"><option></option>${["EMAIL", "GHX XML", "MANUAL"].map((s) => `<option ${f.source === s ? "selected" : ""}>${s}</option>`).join("")}</select></div>`,
+    [["<u>C</u>lear", () => { $$("#modal input, #modal select").forEach((x) => x.value = ""); return false; }], ["<u>N</u>ew", null, true],
+     ["<u>F</u>ind", () => { S.inv.filter = { supplier_number: $("#fsup").value.trim(), invoice_num: $("#fnum").value.trim(), po_number: $("#fpo").value.trim(), amount: $("#famt").value.trim(), validation_status: $("#fst").value, source: $("#fsrc").value }; S.inv.cur = null; openForm("workbench"); return true; }]], 520);
+}
+function modalActions() {
+  const i = curInvoice();
+  const ck = (l, en, id) => `<label class="chk ${en ? "" : "off"}"><input type="checkbox" ${en ? "" : "disabled"} ${id ? `id="${id}"` : ""}>${l}</label>`;
+  modal("Invoice Actions", `<div style="display:grid;grid-template-columns:200px 220px;gap:2px 14px">
+    <div>${ck("<u>V</u>alidate", true, "aval")}${ck("Validate <u>R</u>elated Invoices")}${ck("Cancel <u>I</u>nvoices")}${ck("Apply/<u>U</u>napply Prepayment...")}${ck("<u>P</u>ay in Full...")}${ck("Creat<u>e</u> Accounting")}
+      <div style="padding-left:18px;color:var(--grey)">&#9673; <u>D</u>raft<br>&#9675; F<u>i</u>nal<br>&#9675; Final P<u>o</u>st</div><br>
+      ${ck("I<u>n</u>itiate Approval")}${ck("<u>S</u>top Approval")}${ck("Re<u>l</u>ease Holds")}<br>${ck("Print Noti<u>c</u>e")}</div>
+    <div style="padding-top:150px" class="kvg"><span class="lbl">Hold Name</span>${F("")}<span class="lbl">Release Name</span>${F("")}<span class="lbl">Release Reason</span>${F("")}
+      <span style="height:20px"></span><span></span><span class="lbl">Printer</span>${F("")}<span class="lbl">Sender Name</span>${F("")}<span class="lbl">Sender Title</span>${F("")}</div></div>`,
+    [["O<u>K</u>", async () => {
+      if ($("#aval").checked) { const r = await send("POST", `/invoices/${i.invoice_id}/validate`, { actor: "AP_CLERK" });
+        msg(r.data.validation_status === "Validated" ? "Validation complete. The invoice is Validated." : `Validation complete. ${r.data.holds_count} hold(s) placed or remaining.`); render(); }
+      return true; }], ["<u>C</u>ancel", () => true]], 470);
+}
+async function modalMatch() {
+  const i = curInvoice(); const p = await get("/purchase-orders/" + i.po_number); const inv = await get("/invoices/" + i.invoice_id);
+  const byLine = Object.fromEntries(inv.lines.filter((l) => l.po_line_num).map((l) => [l.po_line_num, l]));
+  const cols = [["Match", 38], ["Qty Invoiced", 72], ["Unit Price", 68], ["Match Amount", 82], ["Freight/Misc", 66], ["PO Number", 70], ["Release", 46], ["Line", 34], ["Shipment", 52], ["Item Description", 190], ["Match Basis", 66]];
+  const l0 = p.lines.find((l) => byLine[l.line_num]) || p.lines[0];
+  modal(`Match to Purchase Orders (${S.resp})`, `<div class="row"><span class="lbl">Invoice Amount</span>${FN(i.invoice_amount)}<span style="flex:1"></span><span class="lbl">Line Total</span>${FN(inv.lines.reduce((a, l) => a + l.amount, 0))}</div>
+    <div class="mr" style="margin-top:6px"><div class="gut">${p.lines.map((l) => `<i class="${l === l0 ? "cur" : ""}"></i>`).join("")}</div><div class="gscroll"><table><colgroup>${cols.map((c) => `<col style="width:${c[1]}px">`).join("")}</colgroup>
+    <tr>${cols.map((c) => `<th>${c[0]}</th>`).join("")}</tr>
+    ${p.lines.map((l) => { const m = byLine[l.line_num]; return `<tr>${[F(m ? "☑" : "☐"), F(m ? m.quantity : "", "n " + (m ? "req" : "")), FN(m ? m.unit_price : l.unit_price),
+      F(m ? usd(m.amount) : "", "n " + (m ? "req" : "")), F("☐"), F(p.po_number), F(""), F(l.line_num, "n"), F(1, "n"), F(l.description), F("Quantity")].map((c) => `<td>${c}</td>`).join("")}</tr>`; }).join("")}</table></div></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:6px">
+      <fieldset class="gb"><legend>Shipment Quantity</legend><div style="display:grid;grid-template-columns:auto 80px auto 100px;gap:3px 8px;align-items:center">
+        <span class="lbl">Ordered</span>${F(l0.quantity_ordered, "n")}<span class="lbl">UOM</span>${F(l0.uom === "CS" ? "Case" : "Each")}
+        <span class="lbl">Shipped</span>${F(0, "n")}<span class="lbl">Type</span>${F("Standard")}
+        <span class="lbl">Received</span>${F(l0.quantity_received, "n")}<span class="lbl">Accepted</span>${F("N/A")}
+        <span class="lbl">Billed</span>${F(l0.quantity_billed, "n")}<span class="lbl">Distributions</span>${F(1, "n")}</div></fieldset>
+      <fieldset class="gb"><legend>Purchase Order</legend><div class="kvg"><span class="lbl">Payment Terms</span>${F(String(p.terms || "").toUpperCase())}<span class="lbl">Freight Terms</span>${F("Paid")}</div></fieldset></div>`,
+    [["View <u>P</u>O", () => { S.po.num = i.po_number; switchRespSilently("OHSU Purchasing Super User"); openForm("po"); return true; }], ["<u>D</u>istribute...", null, true],
+     ["<u>I</u>nvoice Overview", () => { S.overviewId = i.invoice_id; openForm("overview"); return true; }], ["<u>M</u>atch", null, true], ["Close", () => true]], 860);
+}
+async function modalDistributions() {
+  const i = await get("/invoices/" + S.inv.cur);
+  const acct = (l) => `01.4120.${i.po_number ? "714100" : "720500"}.${String(l.po_line_num || 0).padStart(2, "0")}.000.0000`;
+  const cols = [["Num", 34], ["Type", 48], ["Amount", 86], ["GL Date", 80], ["Account", 330], ["PO Number", 72], ["PO Line Num", 70], ["Description", 210]];
+  modal(`Distributions (${S.resp}) - ${i.invoice_num}, ${i.supplier_name}`, `<div class="row"><span class="lbl">Line Number</span>${F(1, "n")}<span style="flex:1"></span><span class="lbl">Invoice Total</span>${FN(i.invoice_amount)}</div>
+    <div class="row"><span class="lbl">Line Description</span>${F(i.lines[0] ? i.lines[0].description : "")}<span style="flex:1"></span><span class="lbl">Distribution Total</span>${FN(i.lines.reduce((a, l) => a + l.amount, 0))}</div>
+    <div class="mr" style="margin-top:6px"><div class="gut">${i.lines.map((l, n) => `<i class="${n === 0 ? "cur" : ""}"></i>`).join("")}</div><div class="gscroll"><table><colgroup>${cols.map((c) => `<col style="width:${c[1]}px">`).join("")}</colgroup>
+    <tr>${cols.map((c) => `<th>${c[0]}</th>`).join("")}</tr>
+    ${i.lines.map((l) => `<tr>${[F(l.line_num, "n"), F("Item"), FN(l.amount), F(od(i.invoice_date)), F(l.distribution || acct(l)), F(l.po_line_num ? i.po_number : ""), F(l.po_line_num || ""), F(l.description)].map((c) => `<td>${c}</td>`).join("")}</tr>`).join("")}</table></div></div>
+    <div class="row" style="margin-top:6px"><span class="lbl">Status</span>${F(i.validation_status)}<span class="lbl">Accounted</span>${F(i.accounted === "Yes" ? "Processed" : "Unprocessed")}<span class="lbl">Distribution Class</span>${F("Saved")}</div>`,
+    [["<u>R</u>everse 1", null, true], ["<u>T</u>ax Distributions", null, true], ["View <u>P</u>O", () => { S.po.num = i.po_number; switchRespSilently("OHSU Purchasing Super User"); openForm("po"); return true; }, !i.po_number], ["Close", () => true]], 880);
+}
+async function modalApprovalHistory() {
+  const i = await get("/invoices/" + S.inv.cur);
+  const rows = i.po_number ? [["Invoice Approval", od(i.created_at), "", "Not Required", "", "", "PO-matched: approval inherited from PO " + i.po_number]]
+    : [["Invoice Approval", od(i.created_at), "", "Sent", "Park, Lena", "0.00", ""], ["Invoice Approval", od(i.created_at), "", i.approval_status === "Workflow Approved" ? "Approved" : "Future", "Park, Lena", usd(i.invoice_amount), ""]];
+  const cols = [["Approval Context", 110], ["Action Date", 80], ["Line Num", 54], ["Action", 80], ["Approver", 100], ["Amount Reviewed", 92], ["Comments", 260]];
+  modal(`Invoice Approval History (${S.resp}, ${i.invoice_num})`, `<div class="mr"><div class="gut">${rows.map((r, n) => `<i class="${n === 0 ? "cur" : ""}"></i>`).join("")}</div><div class="gscroll"><table><colgroup>${cols.map((c) => `<col style="width:${c[1]}px">`).join("")}</colgroup>
+    <tr>${cols.map((c) => `<th>${c[0]}</th>`).join("")}</tr>${rows.map((r) => `<tr>${r.map((v) => `<td>${F(v)}</td>`).join("")}</tr>`).join("")}</table></div></div>`, [["Close", () => true]], 820);
+}
+async function modalRecordHistory() {
+  let rec = null, block = "";
+  if (S.active === "workbench" && S.inv.cur) { rec = await get("/invoices/" + S.inv.cur); block = "AP_INVOICES_V"; }
+  if (!rec) { msg("FRM-41003: This function cannot be performed here."); return; }
+  modal("About This Record", `<div class="kvg"><span class="lbl">Created By</span>${F(rec.created_by)}<span class="lbl">Creation Date</span>${F(odt(rec.created_at))}
+    <span class="lbl">Last Updated By</span>${F(rec.created_by)}<span class="lbl">Last Update Date</span>${F(odt(rec.created_at))}<span class="lbl">Last Update Login</span>${F("1029384")}
+    <span class="lbl">Block / Table</span>${F(block)}</div>`, [["<u>O</u>K", () => true]], 380);
+}
+
+// ===================================================================== Invoice Overview
+async function renderOverview() {
+  const id = S.overviewId || S.inv.cur;
+  if (!id) { $("#canvas").innerHTML = win("Invoice Overview (" + S.resp + ")", "<div>Select an invoice in the Invoice Workbench, then choose Tools > View Invoice Overview.</div>"); return; }
+  const i = await get("/invoices/" + id);
+  const active = i.holds.filter((h) => !h.released_at);
+  const status = i.payment_status === "Yes" ? "Fully Paid" : "Not Paid";
+  const body = `<div style="display:grid;grid-template-columns:auto 200px 1fr auto 160px;gap:3px 8px;align-items:center;max-width:860px">
+      <span class="lbl">Trading Partner</span>${F(i.supplier_name)}<span></span><span class="lbl">Site</span>${F(i.site)}
+      <span class="lbl">Supplier Num</span>${F(i.supplier_number)}<span></span><span class="lbl">Operating Unit</span>${F("OHSU Operating Unit")}
+      <span class="lbl">Invoice Num</span>${F(i.invoice_num)}<span class="row" style="justify-content:flex-end"><span class="lbl">Type</span>${F(i.type === "DEBIT" ? "Debit Memo" : "Standard")}</span><span class="lbl">Date</span>${F(od(i.invoice_date))}
+      <span class="lbl">Batch Name</span>${F("")}<span class="row" style="justify-content:flex-end"><span class="lbl">Currency</span>${F("USD")}</span><span class="lbl">Amount</span>${FN(i.invoice_amount)}
+      <span class="lbl">Voucher</span>${F("")}<span></span><span class="lbl">Unpaid</span>${FN(i.amount_remaining)}
+      <span class="lbl">PO Number</span>${F(i.po_number || "")}<span class="row" style="justify-content:flex-end"><span class="lbl">Release</span>${F("")}</span><span class="lbl">Unapplied</span>${F("")}
+      <span class="lbl">Receipt Num</span>${F("")}<span></span><span class="lbl">Settlement Date</span>${F("")}</div>
+    <div style="display:grid;grid-template-columns:260px 1fr;gap:14px;max-width:860px;margin-top:4px">
+      <fieldset class="gb"><legend>Invoice Status</legend><div class="kvg"><span class="lbl">Approval</span>${F(i.approval_status)}<span class="lbl">Status</span>${F(i.validation_status)}<span class="lbl">Accounting</span>${F(i.accounted === "Yes" ? "Processed" : "Unprocessed")}<span class="lbl">Payment</span>${F(status)}</div></fieldset>
+      <div><div class="row"><span class="lbl">Description</span>${F(i.description || "")}</div>
+        <table style="border-spacing:2px;margin-top:4px"><tr><th style="font-weight:normal;text-align:left;color:var(--label)">Active Hold</th><th style="font-weight:normal;text-align:left;color:var(--label)">Reason</th></tr>
+        ${(active.length ? active : [{}, {}]).map((h) => `<tr><td style="width:160px">${F(h.hold_name ? title(h.hold_name) : "")}</td><td style="width:330px">${F(h.description || "")}</td></tr>`).join("")}</table></div></div>
+    <div style="display:grid;grid-template-columns:1fr 330px;gap:14px;max-width:860px">
+      <fieldset class="gb"><legend>Scheduled Payments</legend><table style="border-spacing:2px"><tr>${["Curr", "Amount", "Remaining", "Due Date", "Hold"].map((h) => `<th style="font-weight:normal;text-align:left;color:var(--label)">${h}</th>`).join("")}</tr>
+        ${i.scheduled_payments.map((s) => `<tr><td>${F("USD")}</td><td style="width:100px">${FN(s.gross_amount)}</td><td style="width:100px">${FN(s.amount_remaining)}</td><td>${F(od(s.due_date))}</td><td>${F(s.hold ? "☑" : "☐")}</td></tr>`).join("")}</table></fieldset>
+      <fieldset class="gb"><legend>Actual Payments</legend><table style="border-spacing:2px"><tr><th style="font-weight:normal;text-align:left;color:var(--label)">Paid By</th><th style="font-weight:normal;text-align:left;color:var(--label)">Paid On</th></tr>
+        ${(i.payments.length ? i.payments : [{}]).map((p) => `<tr><td style="width:180px">${F(p.payment_number ? p.payment_number + " - " + (p.method === "ACH" ? "ACH" : title(p.method)) : "")}</td><td style="width:100px">${F(od(p.payment_date))}</td></tr>`).join("")}</table></fieldset></div>
+    <div class="btns">${btn("P<u>a</u>yment Overview", null, true)}${btn("View <u>R</u>eceipt", null, true)}${btn("View <u>P</u>O", "view-po", !i.po_number)}${btn("<u>S</u>upplier", null, true)}${btn("<u>I</u>nvoice Workbench", "wb-workbench")}</div>`;
+  $("#canvas").innerHTML = win(`Invoice Overview (${S.resp})`, body);
+}
+
+// ===================================================================== Payments
+async function renderPayments() {
+  const d = await get("/payments");
+  const pays = d.payments;
+  const cur = pays[S.pay.cur] || pays[0];
+  const c1 = [["Type", 70], ["Operating Unit", 130], ["Trading Partner", 190], ["Supplier Number", 90], ["Supplier Site", 110], ["Document Num", 90], ["Payment Date", 80], ["Payment Amount", 96], ["Payment Method", 90], ["Status", 80]];
+  const c2 = [["Number", 90], ["Date", 80], ["Amount", 90], ["GL Date", 80], ["Payment Amount", 96], ["Discount Taken", 86], ["Description", 300]];
+  const body = `<div class="mr"><div class="gut">${pays.map((p, n) => `<i class="${p === cur ? "cur" : ""}"></i>`).join("")}</div><div class="gscroll"><table><colgroup>${c1.map((c) => `<col style="width:${c[1]}px">`).join("")}</colgroup>
+    <tr>${c1.map((c) => `<th>${c[0]}</th>`).join("")}</tr>
+    ${pays.map((p, n) => `<tr class="r ${p === cur ? "cur" : ""}" data-n="${n}">${[F("Payment"), F("OHSU Operating Unit"), F(p.supplier_name), F(p.supplier_number), F(p.supplier_site), F(p.payment_number),
+      F(od(p.date)), FN(p.amount), F(p.method === "ACH" ? "Electronic" : title(p.method)), F(p.status, p.status === "Voided" ? "req" : "")].map((c) => `<td>${c}</td>`).join("")}</tr>`).join("")}</table></div></div>
+    <div style="margin-top:10px" class="mr"><div class="gut">${cur.invoices.map((x, n) => `<i class="${n === 0 ? "cur" : ""}"></i>`).join("")}</div><div class="gscroll"><table><colgroup>${c2.map((c) => `<col style="width:${c[1]}px">`).join("")}</colgroup>
+    <tr>${c2.map((c) => `<th>${c[0]}</th>`).join("")}</tr>
+    ${cur.invoices.map((x) => `<tr>${[F(x.invoice_num), F(od(x.invoice_date)), FN(x.invoice_amount), F(od(cur.date)), FN(x.amount_applied), FN(x.discount_taken || 0), F(x.description || "")].map((c) => `<td>${c}</td>`).join("")}</tr>`).join("")}</table></div></div>
+    <div class="btns"><span class="sp"></span>${btn("<u>I</u>nvoice Overview", "pay-overview")}<span class="row"><span class="lbl">Accounting</span>${F("Processed")}</span>${btn("Payment <u>O</u>verview", null, true)}</div>`;
+  $("#canvas").innerHTML = win(`Payments (${S.resp})`, body);
+  $$("#canvas tr.r").forEach((tr) => tr.onclick = () => { S.pay.cur = +tr.dataset.n; renderPayments(); });
+  const ov = $('[data-cmd="pay-overview"]');
+  if (ov) ov.onclick = async (e) => { e.stopPropagation(); const r = await get(`/invoices/${encodeURIComponent(cur.invoices[0].invoice_num)}?supplier_number=${cur.supplier_number}`); S.overviewId = r.invoice_id; openForm("overview"); };
+  $("#rec").textContent = `Record: ${pays.indexOf(cur) + 1}/${pays.length}`;
+}
+
+// ===================================================================== Suppliers (an HTML page in R12.2, shown in the same frame)
+async function renderSuppliers() {
+  const d = await get("/suppliers");
+  const cols = [["Supplier Name", 230], ["Supplier Number", 90], ["Site", 120], ["Address", 260], ["Payment Terms", 86], ["Payment Method", 90], ["Status", 60], ["Contact Email", 220]];
+  const body = `<div class="mr"><div class="gut">${d.suppliers.map((s, n) => `<i class="${n === 0 ? "cur" : ""}"></i>`).join("")}</div><div class="gscroll"><table><colgroup>${cols.map((c) => `<col style="width:${c[1]}px">`).join("")}</colgroup>
+    <tr>${cols.map((c) => `<th>${c[0]}</th>`).join("")}</tr>
+    ${d.suppliers.map((s) => `<tr>${[F(s.supplier_name), F(s.supplier_number), F(s.site), F(s.address), F(s.terms), F(s.payment_method === "ACH" ? "Electronic" : title(s.payment_method)), F(s.status), F(s.contacts.map((c) => c.email).join(", "))].map((c) => `<td>${c}</td>`).join("")}</tr>`).join("")}</table></div></div>`;
+  $("#canvas").innerHTML = win(`Suppliers (${S.resp})`, body);
+}
+
+// ===================================================================== Purchase Orders (Purchasing)
+async function renderPO() {
+  const p = await get("/purchase-orders/" + S.po.num);
+  if (p.error) { S.po.num = "7790415"; return renderPO(); }
+  const tabs = [["lines", "Lines"], ["price", "Price Reference"], ["ref", "Reference Documents"], ["more", "More"]];
+  const cols = [["Num", 34], ["Type", 54], ["Item", 70], ["Rev", 30], ["Category", 104], ["Description", 200], ["UOM", 40], ["Quantity", 62], ["Price", 76], ["Need-By", 80], ["Amount", 90]];
+  const total = p.lines.reduce((a, l) => a + l.quantity_ordered * (S.po.edits[l.line_num] !== undefined ? +S.po.edits[l.line_num] : l.unit_price), 0);
+  const body = `<div style="display:grid;grid-template-columns:auto 210px auto 140px auto 200px auto 1fr;gap:3px 8px;align-items:center">
+      <span class="lbl">Operating Unit</span>${F("OHSU Operating Unit")}<span class="lbl">PO, Rev</span><span class="row">${F(p.po_number)}${F(p.revision, "n")}</span>
+      <span class="lbl">Type</span>${F("Standard Purchase Order")}<span class="lbl">Created</span>${F(od(p.created))}
+      <span class="lbl">Supplier</span>${F(p.supplier_name, "req")}<span class="lbl">Site</span>${F(p.supplier_site)}<span class="lbl">Contact</span>${F("")}<span class="lbl">Ship-To</span>${F("OHSU MAIN CAMPUS")}
+      <span class="lbl">Requester</span>${F(p.requester ? p.requester.full_name + (p.requester.status !== "Active" ? " (inactive since " + od(p.requester.end_date) + ")" : "") : "")}<span></span><span></span><span></span><span></span><span></span><span></span>
+      <span class="lbl">Currency</span>${F("USD")}<span class="lbl">Bill-To</span>${F("OHSU ACCOUNTS PAYABLE")}<span class="lbl">Buyer</span>${F(p.buyer && p.buyer.full_name, "req")}<span class="lbl">Status</span>${F(p.status === "APPROVED" ? "Approved" : p.status)}
+      <span class="lbl">Description</span><span style="grid-column: span 5">${F(p.description)}</span><span class="lbl">Total</span>${FN(total)}
+    </div>
+    <div class="tabs">${tabs.map(([k, t]) => `<div class="tab ${S.po.tab === k ? "on" : ""} ${k !== "lines" ? "off" : ""}" data-tab="${k}">${t}</div>`).join("")}</div>
+    <div class="tabp" style="min-height:160px"><div class="mr"><div class="gut">${p.lines.map((l, n) => `<i class="${n === 0 ? "cur" : ""}"></i>`).join("")}</div><div class="gscroll"><table><colgroup>${cols.map((c) => `<col style="width:${c[1]}px">`).join("")}</colgroup>
+      <tr>${cols.map((c) => `<th>${c[0]}</th>`).join("")}</tr>
+      ${p.lines.map((l) => { const price = S.po.edits[l.line_num] !== undefined ? S.po.edits[l.line_num] : l.unit_price.toFixed(2);
+        return `<tr>${[F(l.line_num, "n"), F(l.uom === "EA" && l.description.toLowerCase().includes("service") ? "Services" : "Goods", "req"), F(""), F(""), F(l.uom === "EA" ? "SERVICES.MAINT" : "MEDICAL.SUPPLIES"),
+          F(l.description, "req"), F(l.uom === "CS" ? "Case" : "Each", "req"), F(l.quantity_ordered, "n req"),
+          `<input class="fld req n" data-line="${l.line_num}" value="${esc(price)}" style="width:100%">`, F(od(p.created)), FN(l.quantity_ordered * +price)].map((c) => `<td>${c}</td>`).join("")}</tr>`; }).join("")}</table></div></div>
+      <div style="margin-top:6px;color:#4a5d78">Price is editable by the buyer. Change it, then File &gt; Save (or the Save icon). Saving revises the PO and revalidates its open invoices.</div></div>
+    <div class="btns">${btn("<u>T</u>erms", null, true)}${btn("<u>C</u>urrency", null, true)}${btn("S<u>h</u>ipments", "shipments")}<span class="sp"></span>${btn("Catal<u>o</u>g", null, true)}${btn("<u>A</u>pprove...", null, true)}</div>`;
+  $("#canvas").innerHTML = win(`Purchase Orders (${S.resp}) - ${p.po_number}, ${p.revision}`, body);
+  $$("#canvas input[data-line]").forEach((inp) => inp.oninput = () => { S.po.edits[inp.dataset.line] = inp.value; msg("Price changed. Save to apply."); });
+}
+function modalFindPO() {
+  get("/purchase-orders").then((d) => modal("Find Purchase Orders", `<div class="row"><span class="lbl">PO Number</span><select class="fld w" id="fpon" style="width:220px">${d.purchase_orders.map((p) => `<option ${p.po_number === S.po.num ? "selected" : ""} value="${p.po_number}">${p.po_number} - ${esc(p.supplier_name)}</option>`).join("")}</select></div>`,
+    [["<u>C</u>lear", null, true], ["<u>F</u>ind", () => { S.po.num = $("#fpon").value; S.po.edits = {}; openForm("po"); return true; }]], 420));
+}
+async function modalShipments() {
+  const p = await get("/purchase-orders/" + S.po.num);
+  const cols = [["Line", 36], ["Num", 34], ["Ship-To Org", 110], ["Ordered", 62], ["Received", 64], ["Billed", 56], ["Cancelled", 62], ["Match Approval Level", 120], ["Invoice Match Option", 120]];
+  modal(`Shipments (${S.resp}) - ${p.po_number}`, `<div class="mr"><div class="gut">${p.lines.map((l, n) => `<i class="${n === 0 ? "cur" : ""}"></i>`).join("")}</div><div class="gscroll"><table><colgroup>${cols.map((c) => `<col style="width:${c[1]}px">`).join("")}</colgroup>
+    <tr>${cols.map((c) => `<th>${c[0]}</th>`).join("")}</tr>
+    ${p.lines.map((l) => `<tr>${[F(l.line_num, "n"), F(1, "n"), F("OHSU"), F(l.quantity_ordered, "n"), F(l.quantity_received, "n"), F(l.quantity_billed, "n"), F(0, "n"), F("3-Way"), F("Purchase Order")].map((c) => `<td>${c}</td>`).join("")}</tr>`).join("")}</table></div></div>`,
+    [["<u>O</u>K", () => true]], 760);
+}
+
+// ===================================================================== Receipts (Receiving)
+function modalFindReceipts() {
+  get("/purchase-orders").then((d) => modal("Find Expected Receipts (OHSU)", `<div class="tabs" style="margin-top:0"><div class="tab on">Supplier and Internal</div><div class="tab off">Customer</div></div>
+    <div class="tabp" style="min-height:80px"><div style="display:grid;grid-template-columns:auto 200px auto 120px;gap:4px 8px;align-items:center">
+      <span class="lbl">Purchase Order</span><select class="fld req" id="frpo"><option></option>${d.purchase_orders.map((p) => `<option value="${p.po_number}" ${p.po_number === S.rcv.po ? "selected" : ""}>${p.po_number} - ${esc(p.supplier_name)}</option>`).join("")}</select>
+      <span class="lbl">Line</span>${F("", "w")}<span class="lbl">Supplier</span>${F("", "w")}<span class="lbl">Shipment</span>${F("", "w")}</div></div>`,
+    [["<u>C</u>lear", null, true], ["<u>N</u>ew", null, true], ["<u>F</u>ind", () => { const v = $("#frpo").value; if (!v) return false; S.rcv.po = v; S.rcv.chk = {}; S.rcv.qty = {}; openForm("receipts"); return true; }]], 560));
+}
+async function renderReceipts() {
+  if (!S.rcv.po) { $("#canvas").innerHTML = win(`Receipts (${S.resp})`, `<div>Use View &gt; Find... to find expected receipts.</div><div class="btns">${btn("<u>F</u>ind...", "rcv-find")}</div>`); return; }
+  const p = await get("/purchase-orders/" + S.rcv.po);
+  // a requester who has left OHSU can't receive; the person now in that job does
+  // goods are received by Central Receiving at the dock (Trail rule 9)
+  const goods = p.lines.some((l) => l.uom !== "EA");
+  const rb = goods ? { full_name: "Central Receiving", email: "receiving@ohsu.edu" }
+    : (p.requester && p.requester.status !== "Active" && p.requester.current_holder ? p.requester.current_holder : p.requester);
+  S.rcv.by = rb && rb.email;
+  const open = p.lines.filter((l) => l.quantity_received < l.quantity_ordered);
+  const cols = [["", 22], ["Quantity", 64], ["UOM", 46], ["Destination Type", 92], ["Item Description", 230], ["Order Type", 62], ["Order Num", 70], ["Line", 36], ["Due Date", 80], ["Supplier", 180]];
+  const body = `<div style="display:grid;grid-template-columns:auto 160px auto 160px auto 1fr;gap:3px 8px;align-items:center">
+      <span class="lbl">Receipt</span>${F("")}<span class="lbl">Receipt Date</span>${F(od(new Date().toISOString()))}<span class="lbl">Shipment</span>${F("")}
+      <span class="lbl">Supplier</span>${F(p.supplier_name)}<span class="lbl">Received By</span>${F(rb && rb.full_name)}<span class="lbl">Packing Slip</span>${F("", "w")}</div>
+    <div class="tabs"><div class="tab on">Lines</div><div class="tab off">Order Information</div><div class="tab off">Outside Services</div><div class="tab off">Shipment Information</div></div>
+    <div class="tabp" style="min-height:140px"><div class="mr"><div class="gut">${(open.length ? open : [0]).map((l, n) => `<i class="${n === 0 ? "cur" : ""}"></i>`).join("")}</div><div class="gscroll"><table><colgroup>${cols.map((c) => `<col style="width:${c[1]}px">`).join("")}</colgroup>
+      <tr>${cols.map((c) => `<th>${c[0]}</th>`).join("")}</tr>
+      ${open.map((l) => { const rem = l.quantity_ordered - l.quantity_received; const q = S.rcv.qty[l.line_num] ?? rem;
+        return `<tr><td><input type="checkbox" data-chk="${l.line_num}" ${S.rcv.chk[l.line_num] ? "checked" : ""}></td><td><input class="fld w n" data-qty="${l.line_num}" value="${esc(q)}" style="width:100%"></td>${[
+          F(l.uom === "CS" ? "Case" : "Each"), F("Expense"), F(l.description), F("PO"), F(p.po_number), F(l.line_num, "n"), F(od(p.created)), F(p.supplier_name)].map((c) => `<td>${c}</td>`).join("")}</tr>`; }).join("")
+        || `<tr><td colspan="10" style="color:#4a5d78;padding:4px">FRM-40350: Query caused no records to be retrieved. Everything on PO ${p.po_number} has been received.</td></tr>`}</table></div></div>
+      <div style="margin-top:6px;color:#4a5d78">Tick a line, check the quantity, then File &gt; Save. Saving creates the receipt and revalidates the PO's invoices.</div></div>
+    <div class="btns">${btn("<u>F</u>ind...", "rcv-find")}<span class="sp"></span>${btn("<u>L</u>ot - Serial", null, true)}${btn("<u>C</u>ascade", null, true)}${btn("<u>H</u>eader", null, true)}</div>`;
+  $("#canvas").innerHTML = win(`Receipts (${S.resp}) - ${p.po_number}`, body);
+  $$("#canvas [data-chk]").forEach((c) => c.onchange = () => { S.rcv.chk[c.dataset.chk] = c.checked; });
+  $$("#canvas [data-qty]").forEach((c) => c.oninput = () => { S.rcv.qty[c.dataset.qty] = c.value; S.rcv.chk[c.dataset.qty] = true; const cb = $(`[data-chk="${c.dataset.qty}"]`); if (cb) cb.checked = true; });
+}
+async function renderRcvSummary() {
+  const d = await get("/purchase-orders");
+  const rows = d.purchase_orders.flatMap((p) => p.receipts.map((r) => ({ ...r, supplier: p.supplier_name, line: p.lines.find((l) => l.line_num === r.line_num) })));
+  rows.sort((a, b) => (b.date || "").localeCompare(a.date || ""));
+  const cols = [["Receipt Num", 80], ["Transaction Type", 120], ["Transaction Date", 92], ["Quantity", 62], ["UOM", 46], ["Item Description", 220], ["Order Num", 70], ["Line", 36], ["Supplier", 200], ["Received By", 110], ["Comments", 220]];
+  const body = `<div class="mr"><div class="gut">${rows.map((r, n) => `<i class="${n === 0 ? "cur" : ""}"></i>`).join("")}</div><div class="gscroll" style="max-height:520px;overflow-y:auto"><table><colgroup>${cols.map((c) => `<col style="width:${c[1]}px">`).join("")}</colgroup>
+    <tr>${cols.map((c) => `<th>${c[0]}</th>`).join("")}</tr>
+    ${rows.map((r) => `<tr>${[F(r.receipt_num), F(title(r.type)), F(od(r.date)), F(r.quantity, "n"), F(r.line && r.line.uom === "CS" ? "Case" : "Each"), F(r.line && r.line.description), F(r.po_number), F(r.line_num, "n"), F(r.supplier), F(r.received_by_name || ""), F(r.note || "")].map((c) => `<td>${c}</td>`).join("")}</tr>`).join("")}</table></div></div>`;
+  $("#canvas").innerHTML = win(`Receiving Transactions Summary (${S.resp})`, body);
+}
+
+// ===================================================================== Worklist (Oracle Workflow notifications: invoice approvals)
+async function renderWorklist() {
+  const d = await get("/worklist");
+  const cols = [["From", 150], ["Type", 110], ["Subject", 330], ["Sent", 84], ["To", 120]];
+  const body = `<div class="mr"><div class="gut">${d.items.map((x, n) => `<i class="${n === 0 ? "cur" : ""}"></i>`).join("") || "<i></i>"}</div><div class="gscroll"><table><colgroup>${cols.map((c) => `<col style="width:${c[1]}px">`).join("")}</colgroup>
+    <tr>${cols.map((c) => `<th>${c[0]}</th>`).join("")}</tr>
+    ${d.items.map((x) => `<tr>${[F("AP Workflow"), F("Invoice Approval"), F(`Invoice ${x.invoice_num} for ${usd(x.invoice_amount)} USD (${x.supplier_name}) requires your approval`), F(od(x.created_at)), F(x.approver ? x.approver.full_name : "")].map((c) => `<td>${c}</td>`).join("")}<td><button class="pb" data-approve="${x.invoice_id}">Approve</button></td></tr>`).join("")
+      || `<tr><td colspan="5" style="color:#4a5d78;padding:4px">There are no open notifications.</td></tr>`}</table></div></div>
+    <div style="margin-top:6px;color:#4a5d78">Approving here is the approver's action in Oracle workflow. An email saying "approved" is not an approval.</div>`;
+  $("#canvas").innerHTML = win(`Worklist (${S.resp})`, body);
+  $$("#canvas [data-approve]").forEach((b) => b.onclick = async () => {
+    const x = d.items.find((i) => i.invoice_id === +b.dataset.approve);
+    const r = await send("POST", `/invoices/${b.dataset.approve}/approve`, { actor: x && x.approver ? x.approver.full_name : "APPROVER" });
+    msg(r.ok ? `Invoice ${r.data.invoice_num} approved. Approval: Workflow Approved.` : (r.data.message || r.data.error)); render();
+  });
+}
+
+// ===================================================================== demo activity log (not an Oracle screen)
+async function renderActivity() {
+  const d = await get("/events");
+  const cols = [["When", 130], ["User", 130], ["Event", 100], ["Reference", 80], ["Detail", 560]];
+  $("#canvas").innerHTML = win("Demo Activity Log - every create, hold, release, receipt and PO change", `<div class="mr"><div class="gut"></div><div class="gscroll"><table><colgroup>${cols.map((c) => `<col style="width:${c[1]}px">`).join("")}</colgroup>
+    <tr>${cols.map((c) => `<th>${c[0]}</th>`).join("")}</tr>${d.events.map((e) => `<tr>${[F(odt(e.at)), F(e.actor), F(e.kind), F(e.ref || ""), F(e.message)].map((c) => `<td>${c}</td>`).join("")}</tr>`).join("")}</table></div></div>`);
+}
+
+// ===================================================================== modal helper
+function modal(name, body, buttons, width = 480) {
+  const m = $("#modal");
+  m.innerHTML = `<div class="win" style="width:${width}px"><div class="wt"><span class="oval"></span><span>${esc(name)}</span><span class="sq"><i data-x="1"></i></span></div>
+    <div class="wb">${body}<div class="btns" style="justify-content:center">${buttons.map((b, n) => `<button class="pb" data-b="${n}" ${b[2] ? "disabled" : ""}>${b[0]}</button>`).join("")}</div></div></div>`;
+  m.classList.add("on");
+  $$("button[data-b]", m).forEach((el) => el.onclick = async () => { const fn = buttons[+el.dataset.b][1]; if (!fn) return; if (await fn()) m.classList.remove("on"); });
+  const x = $("[data-x]", m); if (x) x.onclick = () => m.classList.remove("on");
+}
+
+// ===================================================================== render loop
+async function render() {
+  renderWindowMenu();
+  try {
+    const f = S.active;
+    if (f === "nav") renderNav();
+    else if (f === "workbench") await renderWorkbench();
+    else if (f === "overview") await renderOverview();
+    else if (f === "payments") await renderPayments();
+    else if (f === "suppliers") await renderSuppliers();
+    else if (f === "po") await renderPO();
+    else if (f === "receipts") await renderReceipts();
+    else if (f === "rcvsum") await renderRcvSummary();
+    else if (f === "activity") await renderActivity();
+    else if (f === "worklist") await renderWorklist();
+  } catch (e) { msg("FRM-92100: Your connection to the server was interrupted. " + e.message); }
+}
+setInterval(() => { $("#clock").textContent = new Date().toLocaleTimeString(); }, 1000);
+// The Invoice Workbench requeries every 4 seconds so invoices created by the agent appear without pressing F11.
+setInterval(() => {
+  const busy = $("#modal").classList.contains("on") || (document.activeElement && ["INPUT", "SELECT"].includes(document.activeElement.tagName));
+  if (!busy && (S.active === "workbench" || S.active === "activity" || S.active === "rcvsum")) render();
+}, 4000);
+render();
+</script>
+</body>
+</html>
