@@ -1,19 +1,30 @@
 # OHSU AP Demo — Runbook
 
-How to run the OHSU Accounts Payable demo from your own computer: set up the stand-in Oracle, run the main cases, and know which agent does what.
+**Demo:** Thursday 30 October 2026, with AE Andrew. **Platform:** app.trailhq.com, workspace **OHSU**.
+
+Every case in this demo has **already been run**. On the call you open the finished tasks and walk through them. You send no emails, reply to nothing in Teams, and start no agent.
 
 ## What this demo shows
 
 Seven agents run OHSU's Accounts Payable inbox against Oracle E-Business Suite. Every email goes to one agent, **Inbox Triage**, which checks who sent it in Oracle and hands it to the right specialist. The specialists answer suppliers and staff, enter invoices in Oracle, stop fraud and chase receiving holds. They follow OHSU's written rules (the **Trail**, about 1,500 rules) and ask a person in Teams only when the rules don't settle it; that answer then becomes a new rule.
 
-- **Main cases, run live:** 1, 2, 4, 5, 6, then 10.
-- **Already run and shown as finished tasks:** 3, 7, 8, 9.
-
-> **The "Oracle" here is a stand-in** (`oracle-mock/`): a small program on your computer that looks and answers like Oracle R12. The agents reach it over the internet through **ngrok**. If your laptop sleeps or loses internet, the agents stop. Keep it plugged in and awake.
+> **The "Oracle" here is a stand-in** (`oracle-mock/`) that looks and answers like Oracle R12. Every Oracle step in a task already shows its Oracle-style screen, so you **don't need it running** to show the tasks. Running it on your laptop (optional, see below) adds the Oracle screen with everything the agents did.
 
 ---
 
-## 🔗 Key links & assets
+## ⭐ The main cases (show these first)
+
+| Order | Case | Why it's the one to show | Time |
+| --- | --- | --- | --- |
+| 1 | **Case 1** — six invoices, a voided check, a rule learned in Teams | OHSU's first named scenario. The AP supervisor's Teams reply became a rule and retired a 2021 one, on record. The strongest moment | 8 min |
+| 2 | **Case 2** — the person who has to act left OHSU | OHSU's second named scenario. Uses Case 1's rule without asking anyone | 5 min |
+| 3 | **Cases 5 + 6** — the PO invoice chain | The agenda's invoice part: a clean invoice to payment-ready in Oracle, a GHX duplicate caught, then an exception where only the buyer decides and writes a rule | 8 min |
+
+**Supporting, if time allows:** Case 4 (fraud) — the best three minutes if Tamara or Jim ask about security. Then Cases 3, 7, 8, 9, 10 as quick one-minute looks at the result. **If time runs short,** keep Case 3 (OHSU's third named scenario) as a one-minute look rather than dropping it.
+
+---
+
+## 🔗 Key links
 
 | What | Where |
 | --- | --- |
@@ -25,21 +36,40 @@ Seven agents run OHSU's Accounts Payable inbox against Oracle E-Business Suite. 
 | Non-PO & Grants | https://app.trailhq.com/agent/78c5523d-ab2f-4a4b-804b-52f34225416e |
 | Hold Follow-up | https://app.trailhq.com/agent/b6e826e2-1fcc-4f81-9546-8d3fa42a5025 |
 | Trail "OHSU Accounts Payable" | https://app.trailhq.com/brain/dcd9ca5f-66b9-493f-900c-ede0d07e363b |
-| Send every test email to | `ohsu-ap-inbox-triage-agent@inbound.agents.nanonets.com` |
-| Send test emails from | **[YOUR EMAIL]** — the address you set as `OHSU_ME` below |
-| Agents send email from | `jyotirmoy.nanonets@outlook.com` |
 | Teams | Team **Demo**: channel **AP Questions** (agents ask) and **AP Desk** (hand-offs) |
-| Stand-in Oracle screen (show this) | http://localhost:8770 |
-| Stand-in Oracle public address (agents use it) | https://compost-traffic-uproot.ngrok-free.dev |
-| Attachments | `samples/` in this repo |
+| Stand-in Oracle screen (optional) | http://localhost:8770 |
+| The documents that came in | `samples/` in this repo |
+
+## 🗂️ The finished tasks
+
+Each email case has two tasks: **Triage** (who sent it, where it goes) and the **specialist** (the work). Open the specialist first; open Triage when someone asks how it got there.
+
+| Case | Triage task | Specialist task |
+| --- | --- | --- |
+| ⭐ 1 | [Triage](https://app.trailhq.com/agent/0c278ec4-1bc3-4ed4-9772-7182a6019bf7/task/9486685b-e317-4b09-b6ba-4e36a60aee99) | [Supplier Inquiry](https://app.trailhq.com/agent/72cfe467-6100-4361-a8f8-cdd80d86a461/task/160f1c6c-3a40-4edb-86a4-03f471a60105) |
+| ⭐ 2 | [Triage](https://app.trailhq.com/agent/0c278ec4-1bc3-4ed4-9772-7182a6019bf7/task/6bea0474-3576-46ea-8c9f-05b25b05f646) | [Supplier Inquiry](https://app.trailhq.com/agent/72cfe467-6100-4361-a8f8-cdd80d86a461/task/12142e26-e076-4953-8176-8190517b9e0e) |
+| 3 | [Triage](https://app.trailhq.com/agent/0c278ec4-1bc3-4ed4-9772-7182a6019bf7/task/883574c0-6da5-4cb7-a7c0-2877bbc75295) | [Disputes & Reconciliation](https://app.trailhq.com/agent/f126014d-5026-408b-bd97-9fec2c850a5b/task/60d89da7-745f-418c-afb3-152828f9f4e7) |
+| 4 | [Triage](https://app.trailhq.com/agent/0c278ec4-1bc3-4ed4-9772-7182a6019bf7/task/548e69fa-6256-48a5-8510-8ec9b29b2920) | [Supplier Security](https://app.trailhq.com/agent/8f502092-80b7-40c2-a23b-71d81f10d87e/task/5d0f3088-7620-4e7b-a41d-eed36ea64b86) |
+| ⭐ 5 | [Triage](https://app.trailhq.com/agent/0c278ec4-1bc3-4ed4-9772-7182a6019bf7/task/236a67d7-5efb-4215-95ea-a37fddd6658a) | [PO Invoice Matching](https://app.trailhq.com/agent/d925a850-7d4c-477c-be2e-ae3d8444704b/task/01f13fea-5307-4669-8899-6a6bd35ba2df) |
+| ⭐ 6 | [Triage](https://app.trailhq.com/agent/0c278ec4-1bc3-4ed4-9772-7182a6019bf7/task/9fac4eb1-f516-4f5a-828e-3b0c0024d47b) | [PO Invoice Matching](https://app.trailhq.com/agent/d925a850-7d4c-477c-be2e-ae3d8444704b/task/8e55bd01-baf7-492f-8241-43114a49d259) |
+| 7 | [Triage](https://app.trailhq.com/agent/0c278ec4-1bc3-4ed4-9772-7182a6019bf7/task/c274a69c-d87d-44e2-9e0e-21429ff173ee) | [Non-PO & Grants](https://app.trailhq.com/agent/78c5523d-ab2f-4a4b-804b-52f34225416e/task/b714b468-0e31-4f6d-8947-2864719623e3) |
+| 8 | [Triage](https://app.trailhq.com/agent/0c278ec4-1bc3-4ed4-9772-7182a6019bf7/task/0ba91614-4e7a-4803-8355-b7c8879a136d) | [Disputes & Reconciliation](https://app.trailhq.com/agent/f126014d-5026-408b-bd97-9fec2c850a5b/task/7387f531-8b53-40da-aea4-59e3df502304) |
+| 9 | [Triage](https://app.trailhq.com/agent/0c278ec4-1bc3-4ed4-9772-7182a6019bf7/task/9a24c6da-05ba-4052-a7ba-62b52f4e637a) | [Non-PO & Grants](https://app.trailhq.com/agent/78c5523d-ab2f-4a4b-804b-52f34225416e/task/6df79de0-b757-49b9-b5d7-4205f2d2bf8b) |
+| 10 | — (runs on a schedule, no email) | [Hold Follow-up](https://app.trailhq.com/agent/b6e826e2-1fcc-4f81-9546-8d3fa42a5025/task/1342d326-564b-48f8-bfd2-60c60ff4c8a6) |
 
 ---
 
-## ✅ One-time setup on your computer (Mac)
+## ✅ Before the call
 
-You need: access to workspace **OHSU** on app.trailhq.com, membership of the Teams team **Demo**, and the **ngrok authtoken from JP** (he sends it privately; it is never stored in this repo).
+- [ ] You can open every task link above (logged in to app.trailhq.com, workspace **OHSU**).
+- [ ] Browser tabs open: the ⭐ specialist tasks (Cases 1, 2, 5, 6), the Trail, Teams (AP Questions + AP Desk).
+- [ ] **Do not press Rerun / Run again** on any task. A rerun replaces the finished result and sends real emails and Teams messages.
+- [ ] **Do not run Hold Follow-up**, and leave its 7:00 schedule **off**.
+- [ ] Optional: the Oracle screen running on your laptop (next section).
 
-### 1. Get the files
+## 🖥️ Optional — the stand-in Oracle screen on your laptop
+
+Shows Oracle with everything the agents did: invoices 55241, 55262 and BHC-4471 created, holds placed, reminders logged. You need Python 3.9 or newer (Macs have it) and nothing else. No ngrok: the agents aren't running, so nothing needs to reach your laptop.
 
 ```bash
 git clone https://github.com/jyotirmoy-demons29081999/ohsu-ap-demo.git
@@ -49,312 +79,148 @@ git clone https://github.com/jyotirmoy-demons29081999/ohsu-ap-demo.git
 cd ohsu-ap-demo/oracle-mock
 ```
 
-### 2. Check Python (3.9 or newer; nothing else to install)
-
 ```bash
-python3 --version
+OHSU_DB=demo_state.db python3 server.py
 ```
 
-### 3. Install ngrok and add the authtoken
+Open http://localhost:8770 and leave the terminal open.
 
-```bash
-brew install ngrok
-```
-
-```bash
-ngrok config add-authtoken [NGROK AUTHTOKEN FROM JP]
-```
-
-### 4. Start the stand-in Oracle (Terminal 1 — leave it open)
-
-The first start loads the demo data. `OHSU_DEMO_DATE` lines the invented dates up with the demo day.
-
-```bash
-OHSU_DEMO_DATE=2026-10-30 python3 server.py --reset
-```
-
-### 5. Open it to the internet (Terminal 2 — leave it open)
-
-> ⚠️ **Only one computer can use this address at a time.** Ask JP to stop his ngrok first, or this command fails with "already online".
-
-```bash
-ngrok http --url=compost-traffic-uproot.ngrok-free.dev 8770
-```
-
-### 6. Check it works
-
-- [ ] https://compost-traffic-uproot.ngrok-free.dev/api/health shows `"ok": true`
-- [ ] http://localhost:8770 shows the Oracle screen
-
-### 7. Tell the stand-in Oracle who you are (Terminal 3)
-
-The agents check every sender against Oracle. This script makes **your** address the sender for the case you're about to run, and turns every OHSU staff address into a `+alias` of yours, so no email reaches a real OHSU person.
-
-```bash
-cd ohsu-ap-demo/oracle-mock
-export OHSU_ME=[YOUR EMAIL]
-python3 persona.py case1
-```
-
-- [ ] It prints `[YOUR EMAIL] is now: PACIFIC NORTHWEST SURGICAL SUPPLY (supplier 104882)` and **`Staff addresses at ohsu.edu: 0`**.
-
-> In every new terminal, run `export OHSU_ME=[YOUR EMAIL]` again before `persona.py`. Staff emails from the agents (reminders, Case 2) will arrive at `[YOUR EMAIL]` with `+name` added, e.g. `you+hbrooks@…`.
+> ⚠️ **Never add `--reset`, and never use the screen's "Demo: Reset Data".** Either one wipes the processed data and puts back the untouched starting data. If it happens, close the terminal, run `git checkout demo_state.db`, and start again.
 
 ---
 
-## ✅ Before each demo
+# Part 1 — Questions from suppliers and staff (Supplier Inquiry)
 
-- [ ] Terminals 1 and 2 running; the health link shows `"ok": true`.
-- [ ] **Fresh data** (only before a full run-through, never mid-demo):
+## ⭐ Case 1 — Six invoices, a voided check, and a rule learned in Teams
 
-```bash
-curl -s -X POST http://127.0.0.1:8770/api/admin/reset
-```
+**What came in:** Dana Reyes at Pacific Northwest Surgical Supply (supplier 104882) asks about six invoices, $33,303.50, in one email.
 
-- [ ] **Right after any reset**, run `python3 persona.py case1`. A reset brings back the real-looking `@ohsu.edu` addresses until persona.py runs again.
-- [ ] **Trail ready for Case 1** (in the app, Trail "OHSU Accounts Payable"): the rule *"For paid invoices, provide the payment date and payment number to suppliers…"* is **retired**, and rule 13 *"Do not give a supplier a date for an invoice that has not been paid."* is **approved**. Otherwise Case 1 won't ask in Teams.
-- [ ] The Hold Follow-up schedule is **off** (it must not run before the demo).
-- [ ] Browser tabs open: Inbox Triage, Supplier Inquiry, PO Invoice Matching, Hold Follow-up, the Trail, Teams (AP Questions + AP Desk), your inbox, http://localhost:8770.
+**What to show, in the Supplier Inquiry task**
 
-**Before each case, run its persona line**, and wait until the previous case's specialist task has moved past its first step:
+1. Each invoice looked up in Oracle, each with its Oracle screen.
+2. **The Teams question** (channel **AP Questions**): the only rule on file was the 2021 rule 13, "Do not give a supplier a date for an invoice that has not been paid", which doesn't cover holds, credits or replacement payments. So the agent asked.
+3. **Lena's reply** in that Teams thread, the new policy, which became a rule. Open the Trail: her rule is **approved**, and rule 13 is **retired** because the new rule won the conflict. History keeps both.
+4. **The reply to Dana** — one email, every answer:
 
-| Case | Persona command |
+| Invoice | What Dana was told |
 | --- | --- |
-| 1 | `python3 persona.py case1` |
-| 2 | `python3 persona.py case2` |
-| 4 | `python3 persona.py case4` |
-| 5 and 6 | `python3 persona.py case5` |
-| 10 | none |
+| 55120 | Paid 21 Oct, payment **30418822**. The first check was voided and replaced; the dead check isn't reported as paid |
+| 55187 | **Expected** 13 Nov (never "promised") |
+| 55203 | On hold: a receipt is missing for the full quantity (billed 20, received 12). **No OHSU staff named** |
+| 55219 | Paid 23 Oct, payment **30419544**, **$3,012.50** = $3,615.00 − credit memo **CM-8812** $602.50 |
+| R-2207 | Not discussed: it belongs to the sister company (supplier 104883), where Dana isn't a contact |
+| 55241 | Not on file — please send a copy in this thread |
 
----
+No reminder went to anyone at OHSU, because a supplier wrote.
 
-# Part 1 — Questions from suppliers and staff (Inbox Triage → Supplier Inquiry)
+## ⭐ Case 2 — The person who has to act left OHSU
 
-## Case 1 — Six invoices, a voided check, and a rule learned live
+**What came in:** Maria Chen (Radiology) asks why Northwest Imaging invoice 88412, $18,750.00, hasn't been paid.
 
-The agent answers five of six invoices, refuses the sister company's, asks the AP supervisor in Teams because the 2021 rule doesn't cover holds or credits, and her answer becomes a new rule.
+**What to show**
 
-> **Precondition:** Trail ready (see checklist). Persona `case1`.
+1. The Rules step quotes **Lena's rule from Case 1** and asks nobody. AP wrote the rule once, and it's already working.
+2. The reply to Maria: 88412 is on hold because no receipt was entered, **7 days past due**. The requester **Kevin Walsh left OHSU on 7 Oct**; **Hannah Brooks** now holds the job and must enter the receipt (Receiving > Receipts). Invoice **88507** (Q4, $18,750.00) will need the same step before 7 Nov.
+3. The reminder email to Hannah (Maria copied): PO **7765310** line 1, the exact Oracle step, and why it's hers.
+4. **AP Desk** in Teams: asks Sam Ortiz (buyer) to move PO 7765310 from Kevin to Hannah. The agent never changes a PO itself.
 
-**Send** from [YOUR EMAIL] to `ohsu-ap-inbox-triage-agent@inbound.agents.nanonets.com`, no attachment.
-
-Subject: `Open invoices — Pacific Northwest Surgical Supply / OHSU-00417`
-
-```
-Hello OHSU Accounts Payable,
-
-I'm closing our books for October and have six invoices showing open for OHSU. Could you tell us the status of each and when we can expect payment?
-
-- 55120 — $4,812.50
-- 55187 — $12,306.00
-- 55203 — $2,940.00
-- 55219 — $3,615.00
-- R-2207 — $3,150.00 (this one is from our rentals division)
-- 55241 — $6,480.00
-
-Total $33,303.50. Thank you!
-
-Dana Reyes
-Accounts Receivable, Pacific Northwest Surgical Supply
-(503) 555-0142
-```
-
-**During the run**
-
-1. Triage verifies the sender and hands over to Supplier Inquiry (about a minute).
-2. Supplier Inquiry looks up all six in Oracle; each Oracle step shows an Oracle-style screen.
-3. A question appears in Teams **AP Questions**, quoting rule 13. **Reply in its thread, as Lena (AP supervisor):**
-
-```
-That 2021 rule is gone. Suppliers get the payment date and payment number for paid invoices, and the credit memo number when we paid short. For approved unpaid invoices give the due date and call it expected, never promised. For held invoices say what is missing, but never name OHSU staff. OHSU employees get the full picture, including who has to act, and you can email that person a reminder.
-```
-
-4. The reply becomes a **draft rule** in the Trail. **Approve it**; when the Trail flags the clash with rule 13, choose **the new rule wins**.
-
-**Expect** one reply to [YOUR EMAIL]:
-
-- 55120 paid 14 Oct, ACH **30418822** (the voided check is not reported as paid)
-- 55219 paid 16 Oct, ACH **30419544**, **$3,012.50** = $3,615.00 − credit memo **CM-8812** $602.50
-- 55187 **expected** 6 Nov
-- 55203 on hold until OHSU confirms receipt — **no staff names**
-- 55241 not on file — please send a copy in this thread
-- R-2207 can't be discussed from this address (it belongs to sister supplier 104883)
-- **No reminder to anyone at OHSU** (a supplier wrote)
-
-> **After the case:** the new rule must be **approved** before Case 2.
-
-## Case 2 — The person who has to act left OHSU
-
-A staff member gets the full story with nobody asked; the reminder goes to whoever holds the job now, and the buyer is asked to fix the PO.
-
-> **Precondition:** Case 1's rule approved. Persona `case2` (you are Maria Chen, Radiology).
-
-**Send**, no attachment. Subject: `Why hasn't Northwest Imaging invoice 88412 been paid?`
-
-```
-Hi AP,
-
-Northwest Imaging Services called this morning about invoice 88412 for $18,750.00, our CT scanner service contract for July to September. They say it's past due and they may pause service on our scanners. Can you tell me why it hasn't been paid and what we need to do on our side?
-
-Thanks,
-Maria Chen
-Department Administrator, Radiology
-```
-
-**During the run:** nothing to do. The Rules step quotes the Case 1 rule and **asks nobody**.
-
-**Expect**
-
-- Reply to you: 88412 on a **QTY REC hold** (receipt never entered), days past due; requester **Kevin Walsh left OHSU on 7 Oct**; **Hannah Brooks** (Operations Manager, acting) must enter the receipt; **88507** (Q4, $18,750.00) will need the same step but isn't late; reminder sent, buyer asked.
-- Reminder to `you+hbrooks@…`, you copied: PO **7765310** line 1, $18,750.00, the Oracle step (Receiving > Receipts).
-- **AP Desk** in Teams: asks Sam Ortiz to move PO 7765310 from Kevin to Hannah (invoices 88412 and 88507).
-
----
-
-# Part 2 — Fraud (Inbox Triage → Supplier Security)
+# Part 2 — Fraud (Supplier Security)
 
 ## Case 4 — A lookalike sender asks for new bank details
 
-Nothing is told to the sender; security and AP are alerted with the real supplier's phone number on file.
+**What came in:** an "urgent" letter in Dana's name asking to change bank details and list all open invoices. In the story it comes from **pnw-surgical.com**; the real domain is **pnwsurgical.com**. (The task shows the test sender's domain, trailhq.com, as the fake one. That's expected.)
 
-> **Precondition:** persona `case4` (your address becomes an **unknown** sender). In the story the email comes from dana.reyes@**pnw-surgical.com**; from your address the alert names your domain as the fake one — expected.
+**What to show**
 
-**Send** with **`samples/bank_change_letter.pdf`** attached. Subject: `URGENT — updated remittance details for Pacific Northwest Surgical Supply`
-
-```
-Hello,
-
-Please see the attached letter. We are moving our receivables to a new bank, and our old account closes this Friday. Could you update our vendor record before your next payment run and send us a list of all open invoices with their payment dates, so we can reconcile?
-
-If you need to confirm, please call our treasury desk at (971) 555-0199.
-
-Thank you,
-Dana Reyes
-Accounts Receivable & Treasury
-Pacific Northwest Surgical Supply
-```
-
-**Expect**
-
-- Triage: sender **unverified** + a **bank change letter** → Supplier Security.
-- A report email to the security address, with the letter attached.
-- **AP Desk** alert to AP and Supplier Maintenance: real supplier **104882**, real domain **pnwsurgical.com**, callback **+1 503-555-0142** (the number on file, not the one in the email), **bank details unchanged**.
+- Triage: sender **unverified** + a bank change letter → Supplier Security.
+- A report to security, with the letter attached.
+- **AP Desk** alert: real supplier **104882**, real domain **pnwsurgical.com**, callback **+1 503-555-0142**, the number on file and not the one in the email. **Bank details unchanged.**
 - **Nothing sent to the sender.**
 
----
+# Part 3 — PO invoices (PO Invoice Matching)
 
-# Part 3 — PO invoices (Inbox Triage → PO Invoice Matching)
+## ⭐ Case 5 — One PDF, three documents, one already in Oracle
 
-## Case 5 — One PDF, three documents, one already in Oracle
+**What came in:** Dana replies in Case 1's thread with `samples/pnw_reply.pdf`: invoice 55241, another invoice, and a statement in one PDF.
 
-The file is split, the copy that came through GHX isn't entered twice, and the new invoice posts clean.
+**What to show**
 
-> **Precondition:** Case 1 has run. Persona `case5` (you are Dana again).
+1. Split into **3 documents**: 55241, 55244, the statement (filed: a statement isn't an invoice).
+2. **55244 is already in Oracle as 0055244**, loaded through GHX → **not created twice**.
+3. 55241 against PO **7790415**: **9 of 9 checks passed** → created in Oracle, **$6,480.00**, Validated, no holds.
+4. Reply to Dana: 55241 expected 1 Nov; 55244 already on file, expected 16 Nov; statement noted. **No question asked.**
 
-**Send** with **`samples/pnw_reply.pdf`** attached. Subject: `RE: Open invoices — Pacific Northwest Surgical Supply / OHSU-00417`
+## ⭐ Case 6 — Five cases not delivered, $8 a case too much, the buyer writes a rule
 
-```
-Thanks for the quick answer. Here is 55241 as requested. Our system also attached our other open invoice and a statement — hope that helps.
+**What came in:** invoice 55262 (`samples/pnw_55262.pdf`) for the rest of the drapes on the same PO.
 
-Dana
-```
+**What to show**
 
-**Expect**
+1. Match **7 of 9**. Failed *quantity received*: 25 billed, only 20 received and not yet billed. Failed *price*: $94.00 against $86.00, so 25 × $8.00 = **$200.00** over, above the **$43.00** limit (the lesser of 2% of $2,150.00 and $50.00).
+2. Created **55262, $2,350.00**; Oracle placed **QTY REC** and **PRICE** holds. The agent releases neither.
+3. **Teams AP Questions:** only the price went to Sam (buyer): "Did OHSU agree to the new price?" The quantity needs no person, just the receipt when the last five cases arrive.
+4. **Sam's reply** became a **draft rule** in the Trail: accept this supplier's sterile drape packs at up to $94.00 a case until 31 March 2027. It stays a draft until AP approves it.
+5. Reply to Dana: 55262 entered, expected 20 Nov.
 
-- Split into **3 documents**: 55241, 55244, statement.
-- **55244 = 0055244**, already in Oracle from GHX → **not created**.
-- 55241 against PO **7790415**: **9 of 9 checks passed** → created **$6,480.00**, Validated, no holds, due 1 Nov.
-- Reply to you: 55241 created, expected 1 Nov; 55244 already on file, expected 16 Nov; statement noted. **No question asked.**
+# Part 4 — Quick looks at the finished results
 
-## Case 6 — Five cases not delivered, $8 a case too much, the buyer writes a rule
+## Case 3 — Short payment, two reasons, one is OHSU's mistake (Disputes & Reconciliation)
 
-The invoice is entered with Oracle's own holds, only the price goes to the buyer, and his answer becomes a draft rule.
+Columbia Lab Products says payment 30419507 was **$1,343.40** short. The agent rebuilt it from Oracle: **$103.40** was a discount OHSU took after the window closed (**OHSU's error**), and **$1,240.00** is debit memo DM-71033 for 4 cases of pipette tips returned 29 Sep (receipt 5531155, **supported**). It decided nothing: an acknowledgment with reference **AP-30419507-20261029**, a full draft reply waiting in the AP mailbox, and an **AP Desk** hand-off to **Priya Nair**. Nothing changed in Oracle.
 
-> **Precondition:** Case 5 done. Persona stays `case5` (same supplier).
+## Case 7 — NIH symposium lunch with $540 of wine (Non-PO & Grants)
 
-**Send** with **`samples/pnw_55262.pdf`** attached. Subject: `Invoice 55262 — PO 7790415`
+Sofia Alvarez (Neurology) asks to charge Blue Heron Catering's **$3,486.00** invoice to NIH award R01 NS112233. Lunch $2,310 + coffee $366 + staff $270 = **$2,946.00 stays on the award**. **$540.00 of wine moves to cost center 4130** (Neurology discretionary): alcohol is never charged to a federal award. BHC-4471 created in Oracle, approval routed to **Daniel Osei** (Operations Director, Neurology), Sofia told what moved and why.
 
-```
-Hello,
+> The task shows earlier attempts (the tunnel to the stand-in Oracle dropped). **Scroll to the last pass**, which starts with "Extracted data for payee Blue Heron Catering…" and ends with "Processed non-PO invoice BHC-4471…".
 
-Attached is invoice 55262 for the balance of the sterile drape packs on PO 7790415. Please note our price list changed on October 1.
+## Case 8 — A statement with eight lines, three really open (Disputes & Reconciliation)
 
-Dana Reyes
-Accounts Receivable, Pacific Northwest Surgical Supply
-```
+Summit Biomedical's statement claims **$60,630.00** under "customer 0005521"; the agent reconciled it under supplier **109377**. Reply: **$15,735.00 owed now; $6,305.00 needs a copy.** Paid $26,790 + credited $1,920 + listed twice $9,880 + open $15,735 + not on file $6,305 = $60,630. Every line explained; a copy of **SB-880433** requested in the thread. Nothing on the statement was entered as an invoice.
 
-**During the run:** Teams **AP Questions** asks **"Did OHSU agree to the new price?"** **Reply in its thread, as Sam (buyer):**
+## Case 9 — Honorarium for a visiting professor from Canada (Non-PO & Grants)
 
-```
-Yes. Their price list went up on 1 October and I agreed it. I'll change the PO line to $94.00 today. Until 31 March 2027, accept their sterile drape packs at up to $94.00 a case without asking me.
-```
+Nadia Rahman (Psychiatry) asks to pay Dr. Émilie Gagnon (Université de Montréal): **$2,500.00** honorarium + **$612.40** travel. She is a foreign individual with no supplier record, so **Tax & Compliance goes first**. Coded to Psychiatry **4280** (544110 honorarium, 544100 travel). **Nothing entered in Oracle.** **AP Desk** hand-off to **Grace Liu** (missing supplier record, W-8BEN, visa type and entry date, chair approval; withholding and treaty are hers); Nadia emailed the same list.
 
-**Expect**
+> One step in this task, the Oracle lookup of Dr. Gagnon, shows "Oracle could not be reached" (the tunnel dropped). The agent still reached the right decision from the rules. If asked: the agent never answers from guesses when Oracle doesn't answer.
 
-- Match **7 of 9**: failed *quantity received* (25 billed, 20 received and not yet billed) and *price* ($94.00 vs $86.00: 25 × $8.00 = **$200.00** over; limit **$43.00** = lesser of 2% of $2,150.00 and $50.00).
-- Created **55262, $2,350.00** with **QTY REC** and **PRICE** holds. The agent releases neither.
-- After Sam's reply: a **draft** rule in the Trail, *"Until 31 March 2027, accept sterile drape packs from PACIFIC NORTHWEST SURGICAL SUPPLY at up to $94.00 per case…"*. **Leave it as a draft.**
-- Reply to you: 55262 received and entered.
+## Case 10 — The morning sweep: eleven holds, four reminders, two left alone (Hold Follow-up)
 
----
-
-# Part 4 — The morning sweep (Hold Follow-up)
-
-## Case 10 — Twelve receiving holds, four reminders, two left alone
-
-> **Precondition:** Case 2 ran today (that's why 88412 is left alone). No email starts this case.
-
-**Run:** open **Hold Follow-up** → **Run**, with the prompt:
-
-```
-Run the morning receiving-hold sweep.
-```
-
-**Expect** (on 30 Oct)
-
-- **12 holds, $59,557.50**, older than 5 business days.
-- **4 emails covering 10 invoices, $22,057.50:**
+Runs every morning at 7:00, no email. On 29 Oct it found **11 receiving holds older than 5 business days, $58,917.50**, and sent **4 emails covering 9 invoices, $21,417.50** — one email per person, not one per invoice:
 
 | Who | Invoices | Total |
 | --- | --- | --- |
 | Central Receiving | 55203, CCD-20931 | $4,124.00 |
 | Chris Dalton, Emergency Department | CCD-20977 | $2,618.50 |
-| Ana Morales, Cardiology (Dr. Paul Nguyen copied) | NBR-5512, NBR-5540, NBR-5561 | $4,640.00 |
-| Ben Carter, Facilities Management | IHS-3307, IHS-3321, IHS-3345, IHS-3360 | $10,675.00 |
+| Ana Morales, Cardiology (Dr. Paul Nguyen copied: one hold is over 30 days old) | NBR-5512, NBR-5540, NBR-5561 | $4,640.00 |
+| Ben Carter, Facilities Management | IHS-3307, IHS-3321, IHS-3345 | $10,035.00 |
 
-- **Left alone:** 88412 (Hannah reminded in Case 2) and 88507 (service period runs to January).
-- $22,057.50 + $37,500.00 = $59,557.50. Nothing changes in Oracle.
-
----
-
-# Part 5 — Finished cases to show (already run)
-
-Open each agent's task list and walk through the completed task. You don't send anything.
-
-| Case | Agent | What to point at |
-| --- | --- | --- |
-| 3 — Columbia Lab short payment | Disputes & Reconciliation | $1,343.40 gap = $103.40 discount taken 22 days late (OHSU's error) + $1,240.00 return credit (supported). Acknowledgment only; draft reply for Priya Nair; nothing changed in Oracle |
-| 7 — NIH symposium lunch | Non-PO & Grants | $2,946.00 stays on award R01 NS112233; $540.00 of wine moved to cost center 4130; approval routed to Daniel Osei |
-| 8 — Summit statement | Disputes & Reconciliation | $60,630.00 claimed, **$15,735.00** owed now, $6,305.00 needs a copy; every line explained |
-| 9 — Visiting professor honorarium | Non-PO & Grants | Foreign individual, no supplier record → Tax & Compliance (Grace Liu) first; nothing entered in Oracle; the department told exactly what's missing |
+**Left alone on purpose:** **88412** (Hannah was reminded in Case 2) and **88507** (its service period runs to January). $21,417.50 + $37,500.00 = $58,917.50. Each reminder is logged in Oracle; nothing else changed.
 
 ---
 
-## ⚠️ Known gotchas
+## Closing — the Trail
+
+Open Trail **OHSU Accounts Payable** (link above):
+
+1. About 1,500 rules, in eleven areas, that AP owns.
+2. **Lena's rule** (Case 1): approved, and the 2021 rule 13 it replaced, retired, with who decided.
+3. **Sam's rule** (Case 6): a draft waiting for AP's approval.
+4. Any task's record: what came in, which rules each agent read, what it sent.
+
+## ⚠️ If something looks wrong
 
 | If you see… | It means / do this |
 | --- | --- |
-| A step says "Oracle could not be reached" | ngrok or your laptop dropped. Check the health link, then rerun the task from the start |
-| ngrok says the address is "already online" | JP's ngrok is still running. Ask him to stop it |
-| Sender checks look wrong | Persona not switched, or `OHSU_ME` not set in that terminal: run `python3 persona.py show` |
-| Case 1 answers without asking Lena | The Trail isn't ready: the Case 1 rule is still approved, or rule 13 still retired |
-| Case 2 asks AP in Teams | The Case 1 rule isn't approved yet. Approve it, then send Case 2 again |
-| Case 5 or 6 says "already in Oracle" | That case already ran on this data. Reset (see "Before each demo"), then run persona.py again |
-| Case 10 shows fewer than 12 holds | Not 30 Oct, or a reminder from an earlier run is under 2 business days old |
-| A reply arrives as a new email, not in your thread | Known limit: replies come from the Outlook mailbox. The "RE:" subject keeps them together |
-| A Teams @mention isn't highlighted | The stand-in staff aren't Teams users. The message still posts |
+| "Oracle could not be reached" in a step | The tunnel to the stand-in Oracle dropped during the pre-run. The agent stopped rather than guess. Expected in Case 9's lookup step and Case 7's earlier attempts |
+| A task shows several attempts | It was rerun after a dropped connection. Show the last pass |
+| Staff emails go to `jyotirmoy+name@trailhq.com` | Stand-in addresses, so no email reached a real OHSU person |
+| A Teams @mention isn't highlighted | The stand-in staff aren't Teams users. The message still posted |
+| A Case 4 alert names trailhq.com as the fake domain | The test email came from trailhq.com; in the story it's pnw-surgical.com |
+| Oracle screen at localhost is empty or looks "new" | It was reset. Close it, `git checkout demo_state.db`, start again without `--reset` |
 
-## Placeholders to fill
+---
 
-- **[YOUR EMAIL]** — the address you send test emails from (set as `OHSU_ME`).
-- **[NGROK AUTHTOKEN FROM JP]** — sent privately by JP; never commit it.
+## Appendix — running the cases again from scratch (not needed for Thursday)
+
+Only for a full rebuild by JP. It needs the agents reaching the stand-in Oracle through ngrok, a persona switch before each case, and the Trail reset for Case 1. The steps, email texts and expected results are in this repo's git history (commit `9ecbaf9`, "the live-run runbook").
