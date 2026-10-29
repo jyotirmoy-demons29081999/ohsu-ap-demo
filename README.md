@@ -42,7 +42,7 @@ You need: access to workspace **OHSU** on app.trailhq.com, membership of the Tea
 ### 1. Get the files
 
 ```bash
-git clone https://github.com/NanoNets/ohsu-ap-demo.git
+git clone https://github.com/jyotirmoy-demons29081999/ohsu-ap-demo.git
 ```
 
 ```bash
